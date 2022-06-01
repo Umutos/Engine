@@ -38,11 +38,13 @@ namespace Core
         std::vector<LowRenderer::PointLight*> pointLights;
         std::vector<LowRenderer::DirectionnalLight*> directLights;
         std::vector<LowRenderer::SpotLight*> spotLights;
+
     public:
         bool drawModel = false;
         bool DirectionalLight = false;
         bool PointLight = false;
         bool SpotLight = false;
+        bool CamOnOff = false;
 
     private:
         std::stringstream diffuseColor;
@@ -66,6 +68,7 @@ namespace Core
         void DirectLightsToShaders(unsigned int shaderProgram);
         void SpotLightsToShaders(unsigned int shaderProgram);
         void processInput(GLFWwindow* window);
+        void drawMaze(Model *model);
 
     private:
 

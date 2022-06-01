@@ -12,16 +12,15 @@ using namespace Resources;
 
 namespace LowRenderer
 {
+
 	class Mesh
 	{
 	private:
-		std::vector<Vertex> vertices;
-		std::vector<unsigned int> indicies;
+		Model* modelOriginal;
 
 	public:
-		unsigned int VBO, VAO, EBO;
 
-		Model *modelOriginal;
+		
 		Matrix4 mat4;
 		Matrix4 *par;
 		Vector3D pos;
@@ -32,13 +31,13 @@ namespace LowRenderer
 		static std::vector<GLuint> texture1;
 
 		void Update(unsigned int shaderProgram, Matrix4 PVMatrix);
-		Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName,Matrix4* parent);
+		Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName);
+		Mesh() {}
 
 		Matrix4 ModelMatrixPop()
 		{
 			return mat4.CreateTransformMatrix(rot, pos, scl);
 		}
-		~Mesh();
 
 	};
 }

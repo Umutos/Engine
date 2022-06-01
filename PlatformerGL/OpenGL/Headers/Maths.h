@@ -156,13 +156,6 @@ inline float Radian(const float& degree)
     return degree * (M_PI / 180);
 }
 
-struct Vertex
-{
-    Vector3D Position;
-    Vector2D TextureUV;
-    Vector3D Normal;
-};
-
 
 int checkMax2(int a, int b);
 int checkMin2(int a, int b);

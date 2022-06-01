@@ -4,6 +4,74 @@
 namespace Resources
 {
 
+	void VertexAttributes::Load(std::vector<Vertex> vertices, std::vector<uint32_t> indexes, Buffer vbo, Buffer ebo)
+	{
+		glGenBuffers(1, &vbo.buffer);
+		glGenBuffers(1, &ebo.buffer);
+
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo.buffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo.buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indexes.size(), indexes.data(), GL_STATIC_DRAW);
+		
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(5 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+	}
+
+	VertexAttributes::VertexAttributes() {}
+
+	VertexAttributes::~VertexAttributes()
+	{
+		glDeleteVertexArrays(1, &vao);
+	}
+
+	void VertexAttributes::bind()
+	{
+		glBindVertexArray(vao);
+	}
+
+	void VertexAttributes::unbind()
+	{
+		glBindVertexArray(0);
+	}
+
+	Buffer::Buffer(const void* data, unsigned int size)
+	{
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	}
+
+	Buffer::Buffer() {}
+
+	Buffer::~Buffer()
+	{
+		glDeleteBuffers(1, &buffer);
+	}
+
+	void Buffer::bind()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	}
+
+	void Buffer::unbind()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
 	void Model::unloadOBJ()
 	{
 		vertexBFF.clear();
@@ -114,6 +182,8 @@ namespace Resources
 		{
 			indexBFF.push_back(i);
 		}
+
+		VAO.Load(vertexBFF, indexBFF, VBO, EBO);
 
 		//Debug for OBJloader
 		/*for (int i = 0; i < vertexBFF.size(); i++)

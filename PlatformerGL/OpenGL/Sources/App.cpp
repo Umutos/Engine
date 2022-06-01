@@ -50,6 +50,34 @@ void App::Init(AppInitializer init)
 
 }
 
+int mazeWay[6][6] =
+{ 
+
+	 {0, 0, 0, 0, 0, 0},
+	 {0, 0, 0, 0, 0, 0},
+	 {0, 0, 0, 0, 0, 0},
+	 {0, 0, 0, 0, 0, 0},
+};
+
+
+
+
+/*void App::drawMaze(Model* model)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 50; j++)
+		{
+			if (mazeWay[i][j] == 0)
+			{
+				mesh.push_back(new Mesh(model, Vector3D(0, 0, 0), Vector3D(j, 0, i), Vector3D(0.5, 0.5, 0.5), "Resources/Textures/sample.png"));
+				
+			}
+
+		}
+	}
+}*/
+
 void App::Update(int shaderProgram)
 {
 	glfwPollEvents();
@@ -91,14 +119,12 @@ void App::Update(int shaderProgram)
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	if (drawModel)
+	for (int i = 0; i < mesh.size(); i++)
 	{
-		for (int i = 0; i < mesh.size(); i++)
-		{
-			mesh[i]->Update(shaderProgram, PV);
-		}
+		mesh[i]->Update(shaderProgram, PV);
 	}
 	
+
 	static const char* item[]{ "Cube 1", "Cube 2", "MissFortune", "Darius", "WarWick", "Earth"};
 	static int selectItem = 0;
 
@@ -108,7 +134,7 @@ void App::Update(int shaderProgram)
 
 		if (ImGui::CollapsingHeader("Draw", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::Checkbox("All Model", &drawModel);
+			ImGui::Checkbox("Cam On/Off", &CamOnOff);
 		}
 		if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -286,51 +312,67 @@ void App::processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (CamOnOff)
 	{
-		camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-	}
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
-	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
-	}
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		camera.camPos = camera.camPos + camera.moveSpeed * camera.camUP;
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-	{
-		camera.moveSpeed = 0.1f;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos + camera.moveSpeed * camera.camUP;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+		{
+			camera.moveSpeed = 0.1f;
 
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-	{
-		camera.moveSpeed = 0.5f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			camera.moveSpeed = 0.5f;
 
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-	{
-		camera.camPos = camera.camPos - camera.moveSpeed * camera.camUP;
-	}
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos - camera.moveSpeed * camera.camUP;
+		}
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		camera.mouseMove = true;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		{
+			camera.mouseMove = true;
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		{
+			camera.mouseMove = false;
+			camera.firstMouse = true;
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+	if (CamOnOff == false)
 	{
-		camera.mouseMove = false;
-		camera.firstMouse = true;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			mesh[1]->pos.x += 0.5;
+			camera.camPos = camera.camPos + 0.5 * camera.camRight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			mesh[1]->pos.x -= 0.5;
+			camera.camPos = camera.camPos - 0.5 * camera.camRight;
+		}
 	}
 
 	double x, y;

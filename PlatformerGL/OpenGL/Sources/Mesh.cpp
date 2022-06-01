@@ -3,44 +3,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <STB_Image/stb_image.h>
 
-LowRenderer::Mesh::Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName, Matrix4* parent)
+LowRenderer::Mesh::Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName)
 {
 
 	modelOriginal = model;
 	rot = Rotation;
 	pos = Position;
 	scl = Scale;
-	par = parent;
-
-	// glGenBuffers(1, &VBO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glGenVertexArrays(1, &VAO);
-
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(VAO);
-
-	// generate the texture data
-	// ------------------------------------
-
-
-	//glNamedBufferData(VBO, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * model->getVertexBuffer().size(), model->getVertexBuffer().data(), GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * model->getIndexBuffer().size(), model->getIndexBuffer().data(), GL_STATIC_DRAW);
-
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexAttribArray(0);
-	// normal attribute
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	// texture coord attribute
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(5 * sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 	int width, height, nrChannels;
 
@@ -54,14 +23,6 @@ LowRenderer::Mesh::Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vect
 
 
 	stbi_image_free(data);
-}
-
-
-LowRenderer::Mesh::~Mesh()
-{
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
 }
 
 void LowRenderer::Mesh::Update(unsigned int shaderProgram, Matrix4 PVMatrix)
@@ -78,9 +39,9 @@ void LowRenderer::Mesh::Update(unsigned int shaderProgram, Matrix4 PVMatrix)
 	glBindTextureUnit(0, texture);
 	glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0); // set it manually
 
-	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	glBindVertexArray(modelOriginal->VAO.vao); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 
-	glDrawElements(GL_TRIANGLES, modelOriginal->getVertexBuffer().size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, modelOriginal->vertexBFF.size(), GL_UNSIGNED_INT, 0);
 }
 
 
