@@ -168,6 +168,7 @@ float GetDeterminantMat2(const float a, const float b, const float c, const floa
 float GetDeterminantMat3(const Vector3D& a, const Vector3D& b, const Vector3D& c);
 float GetDeterminantMat3(const float tab[3][3]);
 float GetDeterminantMat4(const Matrix4& a);
+float Lerp(float a, float b, float t);
 
 Matrix3 operator*(const Matrix3& a, const Matrix3& b);
 Matrix3 operator*(const Matrix3& a, const float b);

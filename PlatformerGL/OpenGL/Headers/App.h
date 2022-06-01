@@ -45,6 +45,7 @@ namespace Core
         bool PointLight = false;
         bool SpotLight = false;
         bool CamOnOff = false;
+        float smoothSpeed = 0.15f;
 
     private:
         std::stringstream diffuseColor;

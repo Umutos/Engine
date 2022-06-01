@@ -363,15 +363,25 @@ void App::processInput(GLFWwindow* window)
 	}
 	if (CamOnOff == false)
 	{
+		camera.camPos.x = mesh[1]->pos.x;
+		camera.camPos.y = mesh[1]->pos.y + 7;
+		camera.camPos.z = mesh[1]->pos.z + 30;
+		camera.angle = 90;
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			mesh[1]->pos.x += 0.5;
-			camera.camPos = camera.camPos + 0.5 * camera.camRight;
+			mesh[1]->rot.y = 2;
+			Vector3D smoothedPositon;
+			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
+			camera.camPos.x = smoothedPositon.x;
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
 			mesh[1]->pos.x -= 0.5;
-			camera.camPos = camera.camPos - 0.5 * camera.camRight;
+			mesh[1]->rot.y = 5;
+			Vector3D smoothedPositon;
+			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
+			camera.camPos.x = smoothedPositon.x;
 		}
 	}
 

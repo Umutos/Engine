@@ -721,6 +721,11 @@ float GetDeterminantMat4(const Matrix4& a)
         );
 }
 
+float Lerp(float a, float b, float t)
+{
+    return a + t * (b - a);
+}
+
 Vector3D operator*(const float b, const Vector3D& a)
 {
     Vector3D c(
