@@ -216,7 +216,6 @@ void App::Update(int shaderProgram)
 			ImGui::End();
 		}
 
-	}
 
 	if (Pause)
 	{
