@@ -34,14 +34,6 @@ void Camera::CameraWithMouse(GLFWwindow* window, float x, float y)
 	Vector3D direction;
 	direction = Vector3D(cos(Radian(angle)) * cos(Radian(pitch)), sin(Radian(pitch)), sin(Radian(angle)) * cos(Radian(pitch)));
 
-	
-		direction.Normalize();
-		camFront = direction;
-	
-	
-}
-
-void Camera::Update()
-{
-
+	direction.Normalize();
+	camFront = direction;
 }

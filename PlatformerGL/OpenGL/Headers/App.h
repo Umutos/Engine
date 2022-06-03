@@ -41,10 +41,12 @@ namespace Core
 
     public:
         bool drawModel = false;
-        bool DirectionalLight = false;
-        bool PointLight = false;
-        bool SpotLight = false;
-        bool CamOnOff = false;
+        bool DirectionalLight = true;
+        bool PointLight = true;
+        bool SpotLight = true;
+        bool Debug = false;
+        bool Pause = false;
+        bool MenuClose = true;
         float smoothSpeed = 0.15f;
 
     private:

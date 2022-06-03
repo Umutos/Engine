@@ -89,7 +89,7 @@ void App::Update(int shaderProgram)
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glClear(GL_DEPTH_BUFFER_BIT);	
+	glClear(GL_DEPTH_BUFFER_BIT);
 
 	camera.camRight = camera.camUP.CrossProduct(camera.camFront);
 	camera.camRight.Normalize();
@@ -97,16 +97,16 @@ void App::Update(int shaderProgram)
 	camera.viewMatrix = matrix4.LookAt(camera.camPos, camera.camPos + camera.camFront, camera.camUP);
 	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 100.f);
 	PV = camera.projectionMatrix * camera.viewMatrix;
-	
+
 	glUseProgram(shaderProgram);
-	
+
 	glUniform3f(glGetUniformLocation(shaderProgram, "camPos"), camera.camPos.x, camera.camPos.y, camera.camPos.z);
 
-	if (DirectionalLight)
+	if (PointLight)
 	{
 		PointLightsToShaders(shaderProgram);
 	}
-	if (PointLight)
+	if (DirectionalLight)
 	{
 		DirectLightsToShaders(shaderProgram);
 	}
@@ -114,82 +114,129 @@ void App::Update(int shaderProgram)
 	{
 		SpotLightsToShaders(shaderProgram);
 	}
-	
+
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	for (int i = 0; i < mesh.size(); i++)
+	if (MenuClose)
 	{
-		mesh[i]->Update(shaderProgram, PV);
+		if (ImGui::Begin("Menu"))
+		{
+			if (ImGui::Button("New Game", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
+			{
+				drawModel = true;
+				MenuClose = false;
+			}
+			if (ImGui::Button("Option", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
+			{
+				
+			}
+			if (ImGui::Button("Quit", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
+			{
+				glfwSetWindowShouldClose(window, true);
+			}
+		}
+		ImGui::End();
 	}
+
+
+	if (drawModel)
+	{
+		for (int i = 0; i < mesh.size(); i++)
+		{
+			mesh[i]->Update(shaderProgram, PV);
+		}
+	}
+
+
 	float color1[4] = {1,0,0,1};
 	float color2[4] = {0,1,0,1};
 	sphere1.Draw(color1);
 	//sphere2.Draw(color2);
+
 	static const char* item[]{ "Cube 1", "Cube 2", "MissFortune", "Darius", "WarWick", "Earth"};
 	static int selectItem = 0;
 
-	if (ImGui::Begin("Config"))
-	{
-		ImGui::Combo("Model List", &selectItem, item, IM_ARRAYSIZE(item));
+		if (Debug)
+		{
+			if (ImGui::Begin("Config"))
+			{
+				ImGui::Combo("Model List", &selectItem, item, IM_ARRAYSIZE(item));
 
-		if (ImGui::CollapsingHeader("Draw", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			ImGui::Checkbox("Cam On/Off", &CamOnOff);
+				if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					if (ImGui::CollapsingHeader("Rotation", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::SliderFloat("Rotation X", &mesh[selectItem]->rot.x, 0, M_PI * 2);
+						ImGui::SliderFloat("Rotation Y", &mesh[selectItem]->rot.y, 0, M_PI * 2);
+						ImGui::SliderFloat("Rotation Z", &mesh[selectItem]->rot.z, 0, M_PI * 2);
+					}
+					if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -20, 20);
+						ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -20, 20);
+						ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -20, 20);
+					}
+					if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::SliderFloat("Scale X", &mesh[selectItem]->scl.x, 0, 50);
+						ImGui::SliderFloat("Scale Y", &mesh[selectItem]->scl.y, 0, 50);
+						ImGui::SliderFloat("Scale Z", &mesh[selectItem]->scl.z, 0, 50);
+					}
+				}
+			}
+			ImGui::End();
+
+			if (ImGui::Begin("Light Config"))
+			{
+				if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					if (ImGui::CollapsingHeader("Directionnal", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::Checkbox("DirectionalLight", &DirectionalLight);
+
+						ImGui::SliderFloat("Directional Light\n Intensity", &directLights[0]->diffuseColor.x, 0, 1);
+					}
+					if (ImGui::CollapsingHeader("Point", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::Checkbox("PointLight", &PointLight);
+
+						ImGui::SliderFloat("Point Light Intensity", &pointLights[0]->diffuseColor.y, 0, 1);
+					}
+					if (ImGui::CollapsingHeader("Spot", ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::Checkbox("SpotLight", &SpotLight);
+
+						ImGui::SliderFloat("Spot Light Intensity", &spotLights[0]->diffuseColor.z, 0, 1);
+					}
+				}
+			}
+			ImGui::End();
 		}
-		if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			if (ImGui::CollapsingHeader("Rotation", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				ImGui::SliderFloat("Rotation X", &mesh[selectItem]->rot.x, 0, M_PI * 2);
-				ImGui::SliderFloat("Rotation Y", &mesh[selectItem]->rot.y, 0, M_PI * 2);
-				ImGui::SliderFloat("Rotation Z", &mesh[selectItem]->rot.z, 0, M_PI * 2);
-			}
-			if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -20, 20);
-				ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -20, 20);
-				ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -20, 20);
-			}
-			if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				ImGui::SliderFloat("Scale X", &mesh[selectItem]->scl.x, 0, 50);
-				ImGui::SliderFloat("Scale Y", &mesh[selectItem]->scl.y, 0, 50);
-				ImGui::SliderFloat("Scale Z", &mesh[selectItem]->scl.z, 0, 50);
-			}
-		}
-		
+
 	}
-	ImGui::End();
 
-	if (ImGui::Begin("Light Config"))
+	if (Pause)
 	{
-		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+		if (ImGui::Begin("Pause"))
 		{
-			if (ImGui::CollapsingHeader("Directionnal", ImGuiTreeNodeFlags_DefaultOpen))
+			if (ImGui::Button("Resume", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
 			{
-				ImGui::Checkbox("DirectionalLight", &PointLight);
-
-				ImGui::SliderFloat("Directional Light\n Intensity", &directLights[0]->diffuseColor.x, 0, 1);
+				Pause = false;
 			}
-			if (ImGui::CollapsingHeader("Point", ImGuiTreeNodeFlags_DefaultOpen))
+			if (ImGui::Button("Debug", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
 			{
-				ImGui::Checkbox("PointLight", &DirectionalLight);
-
-				ImGui::SliderFloat("Point Light Intensity", &pointLights[0]->diffuseColor.y, 0, 1);
+				Debug = !Debug;
 			}
-			if (ImGui::CollapsingHeader("Spot", ImGuiTreeNodeFlags_DefaultOpen))
+			if (ImGui::Button("Quit", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
 			{
-				ImGui::Checkbox("SpotLight", &SpotLight);
-
-				ImGui::SliderFloat("Spot Light Intensity", &spotLights[0]->diffuseColor.z, 0, 1);
+				glfwSetWindowShouldClose(window, true);
 			}
 		}
+		ImGui::End();
 	}
-	
-	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -314,8 +361,14 @@ void App::SpotLightsToShaders(unsigned int shaderProgram)
 void App::processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-	if (CamOnOff)
+	{
+		Pause = true;
+		camera.mouseMove = false;
+		camera.firstMouse = true;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+		
+	if (Debug && Pause == false)
 	{
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
@@ -364,15 +417,16 @@ void App::processInput(GLFWwindow* window)
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 	}
-	if (CamOnOff == false)
+	if (Debug == false && Pause == false)
 	{
-		camera.camPos.x = mesh[1]->pos.x;
-		camera.camPos.y = mesh[1]->pos.y + 7;
+		/*camera.camPos.x = mesh[1]->pos.x;
+		camera.camPos.y = mesh[1]->pos.y + 10;
 		camera.camPos.z = mesh[1]->pos.z + 30;
 		camera.angle = 90;
+		camera.pitch = 0;*/
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			mesh[1]->pos.x += 0.5;
+			mesh[1]->pos.x += 0.5f;
 			mesh[1]->rot.y = 2;
 			Vector3D smoothedPositon;
 			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
@@ -380,11 +434,40 @@ void App::processInput(GLFWwindow* window)
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			mesh[1]->pos.x -= 0.5;
+			mesh[1]->pos.x -= 0.5f;
 			mesh[1]->rot.y = 5;
 			Vector3D smoothedPositon;
 			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
 			camera.camPos.x = smoothedPositon.x;
+		}
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			mesh[1]->pos.z -= 0.5;
+			mesh[1]->rot.y = 3.3f;
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			mesh[1]->pos.z += 0.5f;
+			mesh[1]->rot.y = 0;
+		}
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		{
+			camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		{
+			camera.camPos.x = cosf(Radian(camera.angle)) * (camera.camPos.x - mesh[1]->pos.x) - sinf(Radian(camera.angle)) * (camera.camPos.z - mesh[1]->pos.z) + mesh[1]->pos.x;
+			camera.camPos.z = sinf(Radian(camera.angle)) * (camera.camPos.x - mesh[1]->pos.x) + cosf(Radian(camera.angle)) * (camera.camPos.z - mesh[1]->pos.z) + mesh[1]->pos.z;
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		{
+			camera.angle -= mesh[1]->pos.y;
 		}
 	}
 
