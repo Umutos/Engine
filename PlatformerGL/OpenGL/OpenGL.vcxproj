@@ -160,7 +160,6 @@
     <ClCompile Include="Sources\Camera.cpp" />
     <ClCompile Include="Sources\glad.c" />
     <ClCompile Include="Sources\IResources.cpp" />
-    <ClCompile Include="Sources\Light.cpp" />
     <ClCompile Include="Sources\Log.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Maths.cpp" />

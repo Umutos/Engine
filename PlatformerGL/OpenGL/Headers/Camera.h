@@ -29,7 +29,6 @@ namespace LowRenderer
 	public:
 
 		void CameraWithMouse(GLFWwindow* window, float xpos, float ypos);
-		void Update();
 
 	};
 }

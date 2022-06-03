@@ -93,9 +93,6 @@
     <ClCompile Include="Sources\Mesh.cpp">
       <Filter>Fichiers sources\LowRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Light.cpp">
-      <Filter>Fichiers sources\LowRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Transform.cpp">
       <Filter>Fichiers sources\Physics</Filter>
     </ClCompile>
