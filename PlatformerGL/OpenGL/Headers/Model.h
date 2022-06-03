@@ -15,12 +15,7 @@ using namespace Core::Debug;
 
 namespace Resources
 {
-	struct Vertex
-	{
-		Vector3D Position;
-		Vector2D TextureUV;
-		Vector3D Normal;
-	};
+
 
 	class Buffer {
 	private:

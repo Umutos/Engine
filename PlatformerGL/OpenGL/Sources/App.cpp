@@ -47,7 +47,8 @@ void App::Init(AppInitializer init)
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	}
 	glEnable(GL_DEPTH_TEST);
-
+	sphere1 = Sphere(3, {10,10,10},10,10);
+	sphere2 = Sphere(5, {6,6,7},10,10);
 }
 
 int mazeWay[6][6] =
@@ -123,8 +124,10 @@ void App::Update(int shaderProgram)
 	{
 		mesh[i]->Update(shaderProgram, PV);
 	}
-	
-
+	float color1[4] = {1,0,0,1};
+	float color2[4] = {0,1,0,1};
+	sphere1.Draw(color1);
+	//sphere2.Draw(color2);
 	static const char* item[]{ "Cube 1", "Cube 2", "MissFortune", "Darius", "WarWick", "Earth"};
 	static int selectItem = 0;
 

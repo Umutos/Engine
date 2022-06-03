@@ -48,6 +48,8 @@ namespace Core
         float smoothSpeed = 0.15f;
 
     private:
+        Sphere sphere1;
+        Sphere sphere2;
         std::stringstream diffuseColor;
         std::stringstream ambientColor;
         std::stringstream specularColor;

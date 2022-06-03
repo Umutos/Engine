@@ -1,12 +1,24 @@
 #pragma once
 #include <cmath>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <vector>
 
 #define M_PI       3.14159265358979323846
+
 
 class Vector2D
 {
 public:
-    float x, y;
+    union
+    {
+        struct
+        {
+            float x;
+            float y;
+        };
+        float xy[2];
+    };
 
     Vector2D() {}
     Vector2D(float a, float b);
@@ -27,7 +39,16 @@ public:
 class Vector3D
 {
 public:
-    float x, y, z;
+    union
+    {
+        struct
+        {
+            float x;
+            float y;
+            float z;
+        };
+        float xyz[3];
+    };
 
 
     Vector3D() {}
@@ -53,7 +74,17 @@ Vector3D FindVecNormal(Vector3D v0, Vector3D v1, Vector3D v2);
 class Vector4D
 {
 public:
-    float x, y, z, w;
+    union
+    {
+        struct
+        {
+            float x;
+            float y;
+            float z;
+            float w;
+        };
+        float xyz[4];
+    };
 
     Vector4D() {}
     Vector4D(float a, float b, float c, float d);
@@ -180,3 +211,42 @@ Vector3D operator*(const float b, const Vector3D& a);
 
 Vector4D operator*(const Vector4D& b, const Matrix4& a);
 Vector4D operator*(const Matrix4& a, const Vector4D& b);
+
+class OBB
+{
+public:
+    Vector3D position;
+    Vector3D halfSize;
+    Matrix4 umv;
+
+    OBB();
+    ~OBB() {}
+    OBB(Vector3D pos, Matrix4 t_umv);
+};
+
+struct Vertex
+{
+    Vector3D Position;
+    Vector2D TextureUV;
+    Vector3D Normal;
+};
+
+
+
+class Sphere
+{
+public:
+    std::vector<Vector3D> vertexBFT;
+    std::vector<uint32_t> indexBFT;
+    float radius;
+    Vector3D position;
+    unsigned int VAO;
+    unsigned int VBO;
+    unsigned int EBO;
+    Sphere();
+    Sphere(float rad, Vector3D pos, int lon, int lat);
+    void Draw(const float color[4]) const;
+};
+
+bool SphereSphereCol(Sphere sphere1, Sphere sphere2);
+bool SphereOBBCol(Sphere sphere, OBB platform);
