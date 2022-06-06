@@ -338,6 +338,7 @@ void App::SpotLightsToShaders(unsigned int shaderProgram)
 // ---------------------------------------------------------------------------------------------------------
 void App::processInput(GLFWwindow* window)
 {
+
 	if (MenuClose == false)
 	{
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -401,6 +402,13 @@ void App::processInput(GLFWwindow* window)
 	}
 	if (Debug == false && Pause == false)
 	{
+		camera.camPos.x = mesh[0]->pos.x;
+		camera.camPos.y = mesh[0]->pos.y + 10;
+		camera.camPos.z = mesh[0]->pos.z + 30;
+		camera.angle = 90;
+		camera.pitch = 0;
+
+
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			mesh[0]->pos.x += 0.5f;
@@ -428,15 +436,7 @@ void App::processInput(GLFWwindow* window)
 		{
 			mesh[0]->pos.z += 0.5f;
 			mesh[0]->rot.y = 0;
-			camera.camPos.z = mesh[0]->pos.z + 30;
-		}
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
+			camera.camPos.z = mesh[0]->pos.z + 30;       
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
