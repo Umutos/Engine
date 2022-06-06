@@ -215,38 +215,21 @@ Vector4D operator*(const Matrix4& a, const Vector4D& b);
 class OBB
 {
 public:
-    Vector3D position;
     Vector3D halfSize;
     Matrix4 umv;
 
     OBB();
     ~OBB() {}
-    OBB(Vector3D pos, Matrix4 t_umv);
+    OBB(Matrix4 t_umv);
 };
-
-struct Vertex
-{
-    Vector3D Position;
-    Vector2D TextureUV;
-    Vector3D Normal;
-};
-
-
 
 class Sphere
 {
 public:
-    std::vector<Vector3D> vertexBFT;
-    std::vector<uint32_t> indexBFT;
     float radius;
-    Vector3D position;
-    unsigned int VAO;
-    unsigned int VBO;
-    unsigned int EBO;
+
     Sphere();
-    Sphere(float rad, Vector3D pos, int lon, int lat);
-    void Draw(const float color[4]) const;
+    Sphere(float rad);
+
 };
 
-bool SphereSphereCol(Sphere sphere1, Sphere sphere2);
-bool SphereOBBCol(Sphere sphere, OBB platform);

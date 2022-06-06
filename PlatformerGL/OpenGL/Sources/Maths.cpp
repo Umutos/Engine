@@ -736,113 +736,23 @@ Vector3D operator*(const float b, const Vector3D& a)
     );
     return c;
 }
+
 Sphere::Sphere()
 {
     radius = 0;
-    position = {0,0,0};
 }
-Sphere::Sphere(float rad, Vector3D pos, int lon, int lat)
+
+Sphere::Sphere(float rad)
 {
     radius = rad;
-    position = pos;
-    int k=0;
-    for (int j = 0; j < lat; ++j)
-    {
-        float theta0 = ((j + 0) / (float)lat) * M_PI;
-        float theta1 = ((j + 1) / (float)lat) * M_PI;
-        for (int i = 0; i < lon; ++i)
-        {
-            float phi0 = ((i + 0) / (float)lon) * 2.f * M_PI;
-            float phi1 = ((i + 1) / (float)lon) * 2.f * M_PI;
-
-            Vector3D c0 = getSphericalCoords(radius, theta0, phi0);
-            Vector3D c1 = getSphericalCoords(radius, theta0, phi1);
-            Vector3D c2 = getSphericalCoords(radius, theta1, phi1);
-            Vector3D c3 = getSphericalCoords(radius, theta1, phi0);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c2);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c0);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c1);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c0);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c2);
-
-            indexBFT.push_back(k);
-            k++;
-            vertexBFT.push_back(c3);
-        }
-
-    }
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &EBO);
-
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
-
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexBFT.size(), vertexBFT.data(), GL_STATIC_DRAW);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indexBFT.size(), indexBFT.data(), GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3D), (void*)0);
-        glEnableVertexAttribArray(0);
-
-        glBindVertexArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-void Sphere::Draw(const float lineColor[4])const
-{
-
-    glBindVertexArray(VAO); 
-    glDrawElements(GL_TRIANGLES, indexBFT.size(), GL_UNSIGNED_INT, 0);
-   
-}
-bool SphereSphereCol(Sphere sphere1, Sphere sphere2)
-{
-    Vector3D vecDist = (sphere1.position - sphere2.position);
-    float distance = sqrt(pow(vecDist.x, 2) + pow(vecDist.y, 2));
-    float totalRadius = sphere1.radius + sphere2.radius;
-
-    return distance < (totalRadius* totalRadius);
 }
 
-bool SphereOBBCol(Sphere sphere, OBB platform)
+OBB::OBB()
 {
-    Vector3D pos = sphere.position;
-    pos = Vector3D(
-        pos.Dot(pos * Vector3D(platform.umv.matrixTab4[0][0], platform.umv.matrixTab4[0][1], platform.umv.matrixTab4[0][2])),
-        pos.Dot(pos * Vector3D(platform.umv.matrixTab4[1][0], platform.umv.matrixTab4[1][1], platform.umv.matrixTab4[1][2])),
-        pos.Dot(pos * Vector3D(platform.umv.matrixTab4[2][0], platform.umv.matrixTab4[2][1], platform.umv.matrixTab4[2][2]))
-    );
+    umv = nullptr;
+}
 
-    float distance = 0;
-
-    for (int i = 0; i < 3; ++i)
-    {
-        if (pos.xyz[i] < -(platform.halfSize.xyz[i]))
-        {
-            float borderDistance = -(platform.halfSize.xyz[i]) - pos.xyz[i];
-            distance += borderDistance * borderDistance;
-        }
-        else if (pos.xyz[i] > platform.halfSize.xyz[i])
-        {
-            float borderDistance = pos.xyz[i] - platform.halfSize.xyz[i];
-            distance += borderDistance * borderDistance;
-        }
-    }
-    return (distance <= (sphere.radius * sphere.radius));
+OBB::OBB(Matrix4 t_umv)
+{
+    umv = t_umv;
 }

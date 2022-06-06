@@ -1,5 +1,6 @@
 #include <App.h>
 #include <Camera.h>
+#include <ResourcesManager.h>
 
 using namespace Core;
 using namespace LowRenderer;
@@ -47,8 +48,18 @@ void App::Init(AppInitializer init)
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	}
 	glEnable(GL_DEPTH_TEST);
-	sphere1 = Sphere(3, {10,10,10},10,10);
-	sphere2 = Sphere(5, {6,6,7},10,10);
+
+	
+}
+
+void App::SphereColl()
+{
+	ResourcesManager manager;
+	manager.CreateResource<Model>("Sphere", "Resources/Obj/sphere.obj");
+	Model* sphere = manager.GetResource<Model>("Sphere");
+
+	player = SphereCollider(Vector3D(0, 0, 0), Sphere(1));
+	mesh.push_back(&player.colVisualisation);
 }
 
 int mazeWay[6][6] =
@@ -151,12 +162,8 @@ void App::Update(int shaderProgram)
 	}
 
 
-	float color1[4] = {1,0,0,1};
-	float color2[4] = {0,1,0,1};
-	sphere1.Draw(color1);
-	//sphere2.Draw(color2);
 
-	static const char* item[]{ "Cube 1", "Cube 2", "MissFortune", "Darius", "WarWick", "Earth"};
+	static const char* item[]{ "Model 1", "Model 2", "Model 3", "Model 4", "Model 5", "Model 6"};
 	static int selectItem = 0;
 
 		if (Debug)

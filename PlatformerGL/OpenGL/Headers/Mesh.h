@@ -31,7 +31,8 @@ namespace LowRenderer
 		static std::vector<GLuint> texture1;
 
 		void Update(unsigned int shaderProgram, Matrix4 PVMatrix);
-		Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName);
+		Mesh(Model* model, Vector3D Rotation, Vector3D Position, Vector3D Scale, const char* fileName );
+
 		Mesh() {}
 
 		Matrix4 ModelMatrixPop()

@@ -11,7 +11,7 @@
 #include <Maths.h>
 #include <Mesh.h>
 #include <Light.h>
-
+#include <Collider.h>
 #include <Transform.h>
 
 namespace Core
@@ -34,6 +34,7 @@ namespace Core
 
     public:
         GLFWwindow* window;
+        SphereCollider player;
         std::vector<LowRenderer::Mesh*> mesh;
         std::vector<LowRenderer::PointLight*> pointLights;
         std::vector<LowRenderer::DirectionnalLight*> directLights;
@@ -74,6 +75,7 @@ namespace Core
         void SpotLightsToShaders(unsigned int shaderProgram);
         void processInput(GLFWwindow* window);
         void drawMaze(Model *model);
+        void SphereColl();
 
     private:
 

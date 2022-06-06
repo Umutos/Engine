@@ -123,11 +123,8 @@ int main()
 	app.spotLights.push_back(new SpotLight(Vector3D(0, -10, 0), Vector3D(0, 0, 0), Vector3D(1, 1, 1), 1, 0.022f, 0.0019f, M_PI / 3.15));
 
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(50, 1, 15), "Resources/Textures/sample.png"));
-	//app.mesh.push_back(new Mesh(model, Vector3D(0, 0, 0), Vector3D(0, -10, 0), Vector3D(10, 1, 10), "Resources/Textures/sample2.png", &mm.mat4));
 	app.mesh.push_back(new Mesh(MF,Vector3D(0, 5, 0), Vector3D(0, 2, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
-	//app.mesh.push_back(new Mesh(Darius, Vector3D(0, 0, 0), Vector3D(15, 0, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/DR.png", &mm.mat4));
-	//app.mesh.push_back(new Mesh(Warwick, Vector3D(0, 0, 0), Vector3D(5, 15, -10), Vector3D(0.05, 0.05, 0.05), "Resources/Textures/WW.png", &mm.mat4));
-	//app.mesh.push_back(new Mesh(coin, Vector3D(0, 0, 0), Vector3D(0, 5, 0), Vector3D(10, 10, 10), "Resources/Textures/Orb.png", &mm.mat4));
+	app.SphereColl();
 
 	// create a sampler and parameterize it
 	// ------------------------------------
