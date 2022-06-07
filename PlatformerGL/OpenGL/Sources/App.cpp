@@ -54,12 +54,12 @@ void App::Init(AppInitializer init)
 
 void App::SphereColl()
 {
-	player1 = SphereCollider(Vector3D(3, 3, 3), Sphere(1));
+	player1 = SphereCollider(&mesh[0]->pos, Sphere(1));
 	mesh.push_back(&player1.colVisualisation);
-	player2 = SphereCollider(Vector3D(0, 0, 0), Sphere(1));
+	player2 = SphereCollider(&mesh[0]->pos+3, Sphere(1));
 	mesh.push_back(&player2.colVisualisation);
 
-	platform1 = OBBCollider(Vector3D(3, 3, 3), OBB(Vector3D(1, 1, 1),Vector3D(0, 0, 0)));
+	platform1 = OBBCollider(&mesh[1]->pos, OBB(mesh[1]->scl/2, mesh[1]->rot));
 	mesh.push_back(&platform1.colVisualisation);
 }
 
@@ -71,7 +71,7 @@ void App::Update(int shaderProgram)
 	player2.Update();
 	platform1.Update();
 	Matrix4 PV;
-	Matrix4 matrix4;
+	Matrix4 matrix4; 
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);

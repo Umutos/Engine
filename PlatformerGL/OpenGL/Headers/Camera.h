@@ -27,7 +27,7 @@ namespace LowRenderer
 		float jumpSpeed = 10.0f;
 
 		const float gravity = 1;
-		float groundHeight = -40;
+		float groundHeight = 0;
 		Vector2D velocity = { 0, 0 };
 
 

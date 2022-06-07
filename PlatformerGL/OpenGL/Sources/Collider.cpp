@@ -4,7 +4,7 @@
 
 
 
-SphereCollider::SphereCollider(Vector3D pos, Sphere sphere)
+SphereCollider::SphereCollider(Vector3D* pos, Sphere sphere)
 {
     position = pos;
     this->sphere = sphere;
@@ -16,17 +16,17 @@ SphereCollider::SphereCollider(Vector3D pos, Sphere sphere)
         wasSphereLoaded = true;
 
     }
-        colVisualisation = Mesh(sphereModel, Vector3D(0,0,0), position, Vector3D(sphere.radius-0.5, sphere.radius-0.5, sphere.radius-0.5), "Resources/Textures/wf.png");
+        colVisualisation = Mesh(sphereModel, Vector3D(0,0,0), *position, Vector3D(sphere.radius-0.5, sphere.radius-0.5, sphere.radius-0.5), "Resources/Textures/wf.png");
   
 }
 
 SphereCollider::SphereCollider()
 {
-    position = {0,0,0};
+    //position = {0,0,0};
     this->sphere = Sphere();
 }
 
-OBBCollider::OBBCollider(Vector3D pos, OBB obb)
+OBBCollider::OBBCollider(Vector3D* pos, OBB obb)
 {
     position = pos;
     this->obb = obb;
@@ -38,19 +38,19 @@ OBBCollider::OBBCollider(Vector3D pos, OBB obb)
         boxModel = manager.GetResource<Model>("Box");
         wasSphereLoaded = true;
     }
-    colVisualisation = Mesh(boxModel, obb.rotation, position, Vector3D(obb.halfSize.x*2, obb.halfSize.y * 2, obb.halfSize.z * 2), "Resources/Textures/wf.png");
+    colVisualisation = Mesh(boxModel, obb.rotation, *position, Vector3D(obb.halfSize.x*2, obb.halfSize.y * 2, obb.halfSize.z * 2), "Resources/Textures/wf.png");
 }
 
 OBBCollider::OBBCollider()
 {
-    position = {0,0,0};
+    //position = {0,0,0};
     this->obb = OBB();
 }
 
 
 void SphereCollider::Update()
 {
-    position = colVisualisation.pos;
+    colVisualisation.pos = *position;
     if (colVisualisation.scl.x > colVisualisation.scl.y)
     {
         if (colVisualisation.scl.x > colVisualisation.scl.z)
@@ -69,7 +69,7 @@ void SphereCollider::Update()
 
 void OBBCollider::Update()
 {
-    position = colVisualisation.pos;
+    //*position = colVisualisation.pos;
     obb.halfSize.x = colVisualisation.scl.x / 2;
     obb.halfSize.y = colVisualisation.scl.y / 2;
     obb.halfSize.z = colVisualisation.scl.z / 2;
@@ -79,7 +79,7 @@ void OBBCollider::Update()
 
 bool SphereSphereCol(SphereCollider sphere1, SphereCollider sphere2)
 {
-    Vector3D vecDist = (sphere1.position - sphere2.position);
+    Vector3D vecDist = (*sphere1.position - *sphere2.position);
     float distance = sqrt(pow(vecDist.x, 2) + pow(vecDist.y, 2) + pow(vecDist.z, 2));
     float totalRadius = sphere1.sphere.radius + sphere2.sphere.radius;
     return distance < (totalRadius* totalRadius);
@@ -87,8 +87,8 @@ bool SphereSphereCol(SphereCollider sphere1, SphereCollider sphere2)
 
 Vector3D ClosestPointOrientedBox(Vector3D p, OBBCollider b)
 {
-    Vector3D d = p - b.position;
-    Vector3D q= b.position;
+    Vector3D d = p - *b.position;
+    Vector3D q= *b.position;
     Matrix4 umv = b.obb.umv();
 
     for (int i = 0; i < 3; i++) {
@@ -105,7 +105,7 @@ Vector3D ClosestPointOrientedBox(Vector3D p, OBBCollider b)
 
 bool SphereOBBCol(SphereCollider sphere, OBBCollider platform)
 {
-    Vector3D pos = sphere.position;
+    Vector3D pos = *sphere.position;
 
     Vector3D closestPoint = ClosestPointOrientedBox(pos, platform);
 
