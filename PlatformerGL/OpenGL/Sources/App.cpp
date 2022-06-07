@@ -54,12 +54,13 @@ void App::Init(AppInitializer init)
 
 void App::SphereColl()
 {
-	ResourcesManager manager;
-	manager.CreateResource<Model>("Sphere", "Resources/Obj/sphere.obj");
-	Model* sphere = manager.GetResource<Model>("Sphere");
+	player1 = SphereCollider(Vector3D(3, 3, 3), Sphere(1));
+	mesh.push_back(&player1.colVisualisation);
+	player2 = SphereCollider(Vector3D(0, 0, 0), Sphere(1));
+	mesh.push_back(&player2.colVisualisation);
 
-	player = SphereCollider(Vector3D(0, 0, 0), Sphere(1));
-	mesh.push_back(&player.colVisualisation);
+	platform1 = OBBCollider(Vector3D(3, 3, 3), OBB(Vector3D(1, 1, 1),Vector3D(0, 0, 0)));
+	mesh.push_back(&platform1.colVisualisation);
 }
 
 int mazeWay[6][6] =
@@ -94,7 +95,9 @@ void App::Update(int shaderProgram)
 {
 	glfwPollEvents();
 	processInput(window);
-
+	player1.Update();
+	player2.Update();
+	platform1.Update();
 	Matrix4 PV;
 	Matrix4 matrix4;
 
@@ -153,6 +156,7 @@ void App::Update(int shaderProgram)
 	}
 
 
+
 	if (drawModel)
 	{
 		for (int i = 0; i < mesh.size(); i++)
@@ -168,6 +172,25 @@ void App::Update(int shaderProgram)
 
 		if (Debug)
 		{
+			if (SphereSphereCol(player1, player2))
+			{
+			ImGui::Text("Sphere Collide!!");
+			}
+			else
+			{
+			ImGui::Text("no sphere collision... :(");
+			}
+
+			if (SphereOBBCol(player1, platform1)|| SphereOBBCol(player2, platform1))
+			{
+				ImGui::Text("OBB Collide!!");
+			}
+			else
+			{
+				ImGui::Text("no OBB collision... :(");
+			}
+
+
 			if (ImGui::Begin("Config"))
 			{
 				ImGui::Combo("Model List", &selectItem, item, IM_ARRAYSIZE(item));

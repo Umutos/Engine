@@ -17,10 +17,12 @@ public:
     Vector3D position;
     OBB obb;
     bool showCol = true;
+    Mesh colVisualisation;
 
     OBBCollider();
     ~OBBCollider() {}
     OBBCollider(Vector3D pos, OBB obb);
+    void Update();
 };
 
 class SphereCollider
@@ -32,6 +34,7 @@ public:
 
     SphereCollider();
     SphereCollider(Vector3D pos, Sphere sphere);
+    void Update();
 };
 
 bool SphereSphereCol(SphereCollider sphere1, SphereCollider sphere2);

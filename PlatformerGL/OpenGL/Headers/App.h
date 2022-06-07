@@ -34,7 +34,9 @@ namespace Core
 
     public:
         GLFWwindow* window;
-        SphereCollider player;
+        SphereCollider player1;
+        SphereCollider player2;
+        OBBCollider platform1;
         std::vector<LowRenderer::Mesh*> mesh;
         std::vector<LowRenderer::PointLight*> pointLights;
         std::vector<LowRenderer::DirectionnalLight*> directLights;
@@ -51,8 +53,6 @@ namespace Core
         float smoothSpeed = 0.15f;
 
     private:
-        Sphere sphere1;
-        Sphere sphere2;
         std::stringstream diffuseColor;
         std::stringstream ambientColor;
         std::stringstream specularColor;

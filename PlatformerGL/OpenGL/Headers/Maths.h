@@ -120,7 +120,18 @@ public:
 class Matrix4
 {
 public:
-    float matrixTab4[4][4];
+
+
+    union
+    {
+        struct
+        {
+            float matrixTab4[4][4];
+        };
+        Vector4D Matrix4V[4];
+    };
+
+    
 
     Matrix4();
     Matrix4(const float a[4][4]);
@@ -214,13 +225,15 @@ Vector4D operator*(const Matrix4& a, const Vector4D& b);
 
 class OBB
 {
+private:
+    Matrix4 _umv;
 public:
     Vector3D halfSize;
-    Matrix4 umv;
-
+    Vector3D rotation;
     OBB();
     ~OBB() {}
-    OBB(Matrix4 t_umv);
+    OBB(Vector3D halfSize,Vector3D rotation);
+    Matrix4 umv();
 };
 
 class Sphere
