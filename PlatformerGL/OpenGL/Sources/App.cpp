@@ -78,7 +78,7 @@ void App::Update(int shaderProgram)
 	camera.camRight.Normalize();
 
 	camera.viewMatrix = matrix4.LookAt(camera.camPos, camera.camPos + camera.camFront, camera.camUP);
-	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 100.f);
+	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 1000.f);
 	PV = camera.projectionMatrix * camera.viewMatrix;
 
 	glUseProgram(shaderProgram);
@@ -214,6 +214,16 @@ void App::Update(int shaderProgram)
 			}
 		}
 		ImGui::End();
+	}
+
+	if(mesh[0]->pos.y + mesh[0]->scl.y < camera.groundHeight || camera.velocity.y < 0)
+	{
+		camera.velocity.y += camera.gravity;
+	}
+	else
+	{
+		mesh[0]->pos = { mesh[0]->pos.x, camera.groundHeight - mesh[0]->scl.y, mesh[0]->pos.z };
+		camera.velocity.y = 0;
 	}
 
 	ImGui::Render();
@@ -437,6 +447,13 @@ void App::processInput(GLFWwindow* window)
 			mesh[0]->pos.z += 0.5f;
 			mesh[0]->rot.y = 0;
 			camera.camPos.z = mesh[0]->pos.z + 30;       
+		}
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			mesh[0]->pos.y -= -camera.jumpSpeed;
+			Vector3D smoothedPositon;
+			smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
+			camera.camPos.y = smoothedPositon.y;
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
