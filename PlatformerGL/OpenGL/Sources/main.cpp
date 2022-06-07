@@ -93,7 +93,6 @@ int main()
 	Matrix4 mat42;
 	ResourcesManager manager;
 	app.Init(init);
-	log.Print("Test : %f", 1.8);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -104,26 +103,23 @@ int main()
 
 	manager.CreateResource<Model>("cube", "Resources/Obj/cube1.obj");
 	manager.CreateResource<Model>("MF", "Resources/Obj/MF.obj");
-	manager.CreateResource<Model>("Darius", "Resources/Obj/Darius.obj");
-	manager.CreateResource<Model>("Warwick", "Resources/Obj/WW.obj");
-	manager.CreateResource<Model>("Coin", "Resources/Obj/Orb.obj");
 	model = manager.GetResource<Model>("cube");
 	MF = manager.GetResource<Model>("MF");
-	Darius = manager.GetResource<Model>("Darius");
-	Warwick = manager.GetResource<Model>("Warwick");
-	coin = manager.GetResource<Model>("Coin");
 	shader.LoadShaders(shader.shaderProgram);
-	
-
-
-
 	
 	app.pointLights.push_back(new PointLight(Vector3D(0, 20, -10), Vector3D(1, 1, 1), 1, 0.022f, 0.0019f));
 	app.directLights.push_back(new DirectionnalLight(Vector3D(0, 0, -1), Vector3D(1, 1, 1)));
 	app.spotLights.push_back(new SpotLight(Vector3D(0, -10, 0), Vector3D(0, 0, 0), Vector3D(1, 1, 1), 1, 0.022f, 0.0019f, M_PI / 3.15));
 
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(50, 1, 15), "Resources/Textures/sample.png"));
-	app.mesh.push_back(new Mesh(MF,Vector3D(0, 5, 0), Vector3D(0, 2, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
+	app.mesh.push_back(new Mesh(MF,Vector3D(0, 3.3f, 0), Vector3D(0, 2, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
+
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(0, 0, 0), Vector3D(50, 1, 15), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(0, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(-30, 0, -70), Vector3D(5, 1, 6), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(-40, 0, -50), Vector3D(3, 1, 6), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(-60, 0, -65), Vector3D(10, 2, 7), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, -6), Vector3D(-60, -0.9, -80), Vector3D(7, 1, 4), "Resources/Textures/Bricks.png"));
+
 	app.SphereColl();
 
 	// create a sampler and parameterize it
@@ -155,23 +151,8 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 
-	// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-
-	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
 	// uncomment this call to draw in wireframe polygons.
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-
-	//glDeleteTextures(1, &texture);
-	//glDeleteTextures(1, &texture2);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	app.mesh.clear();
 

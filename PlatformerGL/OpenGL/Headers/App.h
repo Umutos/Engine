@@ -74,7 +74,6 @@ namespace Core
         void DirectLightsToShaders(unsigned int shaderProgram);
         void SpotLightsToShaders(unsigned int shaderProgram);
         void processInput(GLFWwindow* window);
-        void drawMaze(Model *model);
         void SphereColl();
 
     private:

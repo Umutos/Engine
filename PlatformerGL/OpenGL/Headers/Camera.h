@@ -24,6 +24,11 @@ namespace LowRenderer
 		float angle = 90;
 		float pitch = 0;
 		float moveSpeed = 0.05f;
+		float jumpSpeed = 10.0f;
+
+		const float gravity = 1;
+		float groundHeight = -40;
+		Vector2D velocity = { 0, 0 };
 
 
 	public:

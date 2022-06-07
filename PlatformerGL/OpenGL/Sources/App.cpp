@@ -63,34 +63,6 @@ void App::SphereColl()
 	mesh.push_back(&platform1.colVisualisation);
 }
 
-int mazeWay[6][6] =
-{ 
-
-	 {0, 0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0, 0},
-};
-
-
-
-
-/*void App::drawMaze(Model* model)
-{
-	for (int i = 0; i < 6; i++)
-	{
-		for (int j = 0; j < 50; j++)
-		{
-			if (mazeWay[i][j] == 0)
-			{
-				mesh.push_back(new Mesh(model, Vector3D(0, 0, 0), Vector3D(j, 0, i), Vector3D(0.5, 0.5, 0.5), "Resources/Textures/sample.png"));
-				
-			}
-
-		}
-	}
-}*/
-
 void App::Update(int shaderProgram)
 {
 	glfwPollEvents();
@@ -109,7 +81,7 @@ void App::Update(int shaderProgram)
 	camera.camRight.Normalize();
 
 	camera.viewMatrix = matrix4.LookAt(camera.camPos, camera.camPos + camera.camFront, camera.camUP);
-	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 100.f);
+	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 1000.f);
 	PV = camera.projectionMatrix * camera.viewMatrix;
 
 	glUseProgram(shaderProgram);
@@ -136,7 +108,7 @@ void App::Update(int shaderProgram)
 
 	if (MenuClose)
 	{
-		if (ImGui::Begin("Menu"))
+		if(ImGui::Begin("Menu", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoMove))
 		{
 			if (ImGui::Button("New Game", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
 			{
@@ -167,7 +139,7 @@ void App::Update(int shaderProgram)
 
 
 
-	static const char* item[]{ "Model 1", "Model 2", "Model 3", "Model 4", "Model 5", "Model 6"};
+	static const char* item[]{ "Model 1", "Model 2", "Model 3", "Model 4", "Model 5", "Model 6", "Model 7" };
 	static int selectItem = 0;
 
 		if (Debug)
@@ -205,9 +177,9 @@ void App::Update(int shaderProgram)
 					}
 					if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
 					{
-						ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -20, 20);
-						ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -20, 20);
-						ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -20, 20);
+						ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -200, 200);
+						ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -200, 200);
+						ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -200, 200);
 					}
 					if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
 					{
@@ -249,7 +221,7 @@ void App::Update(int shaderProgram)
 
 	if (Pause)
 	{
-		if (ImGui::Begin("Pause"))
+		if (ImGui::Begin("Pause", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove))
 		{
 			if (ImGui::Button("Resume", ImVec2(ImGui::GetWindowSize().x + 0.1f, ImGui::GetWindowSize().x * 0.1f)))
 			{
@@ -265,6 +237,16 @@ void App::Update(int shaderProgram)
 			}
 		}
 		ImGui::End();
+	}
+
+	if(mesh[0]->pos.y + mesh[0]->scl.y < camera.groundHeight || camera.velocity.y < 0)
+	{
+		camera.velocity.y += camera.gravity;
+	}
+	else
+	{
+		mesh[0]->pos = { mesh[0]->pos.x, camera.groundHeight - mesh[0]->scl.y, mesh[0]->pos.z };
+		camera.velocity.y = 0;
 	}
 
 	ImGui::Render();
@@ -389,12 +371,17 @@ void App::SpotLightsToShaders(unsigned int shaderProgram)
 // ---------------------------------------------------------------------------------------------------------
 void App::processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+
+	if (MenuClose == false)
 	{
-		Pause = true;
-		camera.mouseMove = false;
-		camera.firstMouse = true;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			Pause = true;
+			camera.mouseMove = false;
+			camera.firstMouse = true;
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+		}
 	}
 		
 	if (Debug && Pause == false)
@@ -448,55 +435,58 @@ void App::processInput(GLFWwindow* window)
 	}
 	if (Debug == false && Pause == false)
 	{
-		/*camera.camPos.x = mesh[1]->pos.x;
-		camera.camPos.y = mesh[1]->pos.y + 10;
-		camera.camPos.z = mesh[1]->pos.z + 30;
+		camera.camPos.x = mesh[0]->pos.x;
+		camera.camPos.y = mesh[0]->pos.y + 10;
+		camera.camPos.z = mesh[0]->pos.z + 30;
 		camera.angle = 90;
-		camera.pitch = 0;*/
+		camera.pitch = 0;
+
+
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			mesh[1]->pos.x += 0.5f;
-			mesh[1]->rot.y = 2;
+			mesh[0]->pos.x += 0.5f;
+			mesh[0]->rot.y = 2;
 			Vector3D smoothedPositon;
-			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
+			smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
 			camera.camPos.x = smoothedPositon.x;
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			mesh[1]->pos.x -= 0.5f;
-			mesh[1]->rot.y = 5;
+			mesh[0]->pos.x -= 0.5f;
+			mesh[0]->rot.y = 5;
 			Vector3D smoothedPositon;
-			smoothedPositon.x = Lerp(mesh[1]->pos.x, camera.camPos.x, smoothSpeed);
+			smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
 			camera.camPos.x = smoothedPositon.x;
 		}
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			mesh[1]->pos.z -= 0.5;
-			mesh[1]->rot.y = 3.3f;
+			mesh[0]->pos.z -= 0.5;
+			mesh[0]->rot.y = 3.3f;
+			camera.camPos.z = mesh[0]->pos.z + 30;
 
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			mesh[1]->pos.z += 0.5f;
-			mesh[1]->rot.y = 0;
+			mesh[0]->pos.z += 0.5f;
+			mesh[0]->rot.y = 0;
+			camera.camPos.z = mesh[0]->pos.z + 30;       
 		}
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
+			mesh[0]->pos.y -= -camera.jumpSpeed;
+			Vector3D smoothedPositon;
+			smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
+			camera.camPos.y = smoothedPositon.y;
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
-			camera.camPos.x = cosf(Radian(camera.angle)) * (camera.camPos.x - mesh[1]->pos.x) - sinf(Radian(camera.angle)) * (camera.camPos.z - mesh[1]->pos.z) + mesh[1]->pos.x;
-			camera.camPos.z = sinf(Radian(camera.angle)) * (camera.camPos.x - mesh[1]->pos.x) + cosf(Radian(camera.angle)) * (camera.camPos.z - mesh[1]->pos.z) + mesh[1]->pos.z;
+			camera.camPos.x = cosf(Radian(camera.angle)) * (camera.camPos.x - mesh[0]->pos.x) - sinf(Radian(camera.angle)) * (camera.camPos.z - mesh[0]->pos.z) + mesh[0]->pos.x;
+			camera.camPos.z = sinf(Radian(camera.angle)) * (camera.camPos.x - mesh[0]->pos.x) + cosf(Radian(camera.angle)) * (camera.camPos.z - mesh[0]->pos.z) + mesh[0]->pos.z;
 
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		{
-			camera.angle -= mesh[1]->pos.y;
+			camera.angle -= mesh[0]->pos.y;
 		}
 	}
 
