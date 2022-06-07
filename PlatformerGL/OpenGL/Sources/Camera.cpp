@@ -10,7 +10,6 @@ void Camera::CameraWithMouse(GLFWwindow* window, float x, float y)
 		moveY = y;
 		firstMouse = false;
 	}
-
 	
 	if (mouseMove)
 	{

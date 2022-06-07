@@ -13,6 +13,7 @@
 #include <Light.h>
 #include <Collider.h>
 #include <Transform.h>
+#include <Camera.h>
 
 namespace Core
 {
@@ -37,6 +38,8 @@ namespace Core
         SphereCollider player1;
         SphereCollider player2;
         OBBCollider platform1;
+        Camera camera;
+
         std::vector<LowRenderer::Mesh*> mesh;
         std::vector<LowRenderer::PointLight*> pointLights;
         std::vector<LowRenderer::DirectionnalLight*> directLights;

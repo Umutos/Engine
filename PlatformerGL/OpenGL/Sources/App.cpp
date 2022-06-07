@@ -1,11 +1,8 @@
 #include <App.h>
-#include <Camera.h>
 #include <ResourcesManager.h>
 
 using namespace Core;
 using namespace LowRenderer;
-
-Camera camera;
 
 void App::Init(AppInitializer init)
 {
@@ -382,117 +379,132 @@ void App::processInput(GLFWwindow* window)
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 		}
-	}
-		
-	if (Debug && Pause == false)
-	{
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
-		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
-		}
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos + camera.moveSpeed * camera.camUP;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		{
-			camera.moveSpeed = 0.1f;
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		{
-			camera.moveSpeed = 0.5f;
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		{
-			camera.camPos = camera.camPos - camera.moveSpeed * camera.camUP;
-		}
-
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-		{
-			camera.mouseMove = true;
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
-		{
-			camera.mouseMove = false;
-			camera.firstMouse = true;
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
-	}
-	if (Debug == false && Pause == false)
-	{
-		camera.camPos.x = mesh[0]->pos.x;
-		camera.camPos.y = mesh[0]->pos.y + 10;
-		camera.camPos.z = mesh[0]->pos.z + 30;
-		camera.angle = 90;
-		camera.pitch = 0;
 
 
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (Debug && Pause == false)
 		{
-			mesh[0]->pos.x += 0.5f;
-			mesh[0]->rot.y = 2;
-			Vector3D smoothedPositon;
-			smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
-			camera.camPos.x = smoothedPositon.x;
+			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
+			}
+			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
+			}
+			if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
+			}
+			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
+			}
+			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos + camera.moveSpeed * camera.camUP;
+			}
+			if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+			{
+				camera.moveSpeed = 0.1f;
+
+			}
+			if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			{
+				camera.moveSpeed = 0.5f;
+
+			}
+			if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos - camera.moveSpeed * camera.camUP;
+			}
+
+			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+			{
+				camera.mouseMove = true;
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+			{
+				camera.mouseMove = false;
+				camera.firstMouse = true;
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
 		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (Debug == false && Pause == false)
 		{
-			mesh[0]->pos.x -= 0.5f;
-			mesh[0]->rot.y = 5;
-			Vector3D smoothedPositon;
-			smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
-			camera.camPos.x = smoothedPositon.x;
-		}
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			mesh[0]->pos.z -= 0.5;
-			mesh[0]->rot.y = 3.3f;
+			/*camera.camPos.x = mesh[0]->pos.x;
+			camera.camPos.y = mesh[0]->pos.y + 10;
 			camera.camPos.z = mesh[0]->pos.z + 30;
+			camera.angle = 90;
+			camera.pitch = 0;*/
+			
 
-		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			mesh[0]->pos.z += 0.5f;
-			mesh[0]->rot.y = 0;
-			camera.camPos.z = mesh[0]->pos.z + 30;       
-		}
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		{
-			mesh[0]->pos.y -= -camera.jumpSpeed;
-			Vector3D smoothedPositon;
-			smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
-			camera.camPos.y = smoothedPositon.y;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		{
-			camera.camPos.x = cosf(Radian(camera.angle)) * (camera.camPos.x - mesh[0]->pos.x) - sinf(Radian(camera.angle)) * (camera.camPos.z - mesh[0]->pos.z) + mesh[0]->pos.x;
-			camera.camPos.z = sinf(Radian(camera.angle)) * (camera.camPos.x - mesh[0]->pos.x) + cosf(Radian(camera.angle)) * (camera.camPos.z - mesh[0]->pos.z) + mesh[0]->pos.z;
+			if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			{
+				mesh[0]->pos.x += 0.5f;
+				mesh[0]->rot.y = 2;
+				Vector3D smoothedPositon;
+				smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
+				camera.camPos.x = smoothedPositon.x;
+			}
+			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			{
+				mesh[0]->pos.x -= 0.5f;
+				mesh[0]->rot.y = 5;
+				Vector3D smoothedPositon;
+				smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
+				camera.camPos.x = smoothedPositon.x;
+			}
+			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			{
+				mesh[0]->pos.z -= 0.5;
+				mesh[0]->rot.y = 3.3f;
+				camera.camPos.z = mesh[0]->pos.z + 30;
+			}
+			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			{
+				mesh[0]->pos.z += 0.5f;
+				mesh[0]->rot.y = 0;
+				camera.camPos.z = mesh[0]->pos.z + 30;
+			}
+			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+			{
+				const float radius = 30;
+				float camX = sin(glfwGetTime()) * radius;
+				float camZ = cos(glfwGetTime()) * radius;
 
+				camX += mesh[0]->pos.x;
+				camZ += mesh[0]->pos.z;
+				camera.angle += cos(M_PI);
+				camera.camPos = { camX, 7, camZ };
+			}
+			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+			{
+				const float radius = 30;
+				float camX = -sin(glfwGetTime()) * radius;
+				float camZ = cos(glfwGetTime()) * radius;
+
+
+				camX += mesh[0]->pos.x;
+				camZ += mesh[0]->pos.z;
+
+				camera.angle += cos(M_PI);
+
+				camera.camPos = { camX, 7, camZ };
+			}
+			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+			{
+				mesh[0]->pos.y -= -camera.jumpSpeed;
+				Vector3D smoothedPositon;
+				smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
+				camera.camPos.y = smoothedPositon.y;
+			}
 		}
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		{
-			camera.angle -= mesh[0]->pos.y;
-		}
+
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+		camera.CameraWithMouse(window, x, y);
 	}
-
-	double x, y;
-	glfwGetCursorPos(window, &x, &y);
-	camera.CameraWithMouse(window, x, y);
 }
 
 App::~App()
