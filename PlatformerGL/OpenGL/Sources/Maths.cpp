@@ -767,5 +767,5 @@ Matrix4 OBB::umv()
 
 Vector3D OBB::halfSize()
 {
-    return *_halfSize/2;
+    return *_halfSize;
 }

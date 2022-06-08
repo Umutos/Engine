@@ -59,7 +59,7 @@ void App::SphereColl()
 	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
 	platforms.push_back(Platform(platform1, &player2.colVisualisation));
 
-	player = Actor(player1, mesh[0], 5);
+	player = Actor(player1, mesh[0], 0.05);
 }
 
 void App::Update(int shaderProgram)
@@ -164,7 +164,7 @@ void App::Update(int shaderProgram)
 
 			if (player.isGrounded)
 			{
-				ImGui::Text("isGrounded!!!!");
+				ImGui::Text("isGrounded!!!!,%f",player.dot);
 			}
 			else
 			{
@@ -245,16 +245,6 @@ void App::Update(int shaderProgram)
 			}
 		}
 		ImGui::End();
-	}
-
-	if(mesh[0]->pos.y + mesh[0]->scl.y < camera.groundHeight || camera.velocity.y < 0)
-	{
-		camera.velocity.y += camera.gravity;
-	}
-	else
-	{
-		mesh[0]->pos = { mesh[0]->pos.x, camera.groundHeight - mesh[0]->scl.y, mesh[0]->pos.z };
-		camera.velocity.y = 0;
 	}
 
 	ImGui::Render();
@@ -505,11 +495,10 @@ void App::processInput(GLFWwindow* window)
 			}
 			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 			{
-				mesh[0]->pos.y -= -camera.jumpSpeed;
-				Vector3D smoothedPositon;
-				smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
-				camera.camPos.y = smoothedPositon.y;
+				if(player.isGrounded)
+					player.Jump();
 			}
+		
 		}
 
 		double x, y;
