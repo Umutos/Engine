@@ -38,7 +38,8 @@ OBBCollider::OBBCollider(Vector3D* pos, OBB obb)
         boxModel = manager.GetResource<Model>("Box");
         wasSphereLoaded = true;
     }
-    colVisualisation = Mesh(boxModel, obb.rotation, *position, Vector3D(obb.halfSize.x*2, obb.halfSize.y * 2, obb.halfSize.z * 2), "Resources/Textures/wf.png");
+
+    colVisualisation = Mesh(boxModel, *position, { obb.rotation->x, obb.rotation->y, obb.rotation->z }, { obb.halfSize().x, obb.halfSize().y, obb.halfSize().z }, "Resources/Textures/wf.png");
 }
 
 OBBCollider::OBBCollider()
@@ -69,11 +70,7 @@ void SphereCollider::Update()
 
 void OBBCollider::Update()
 {
-    //*position = colVisualisation.pos;
-    obb.halfSize.x = colVisualisation.scl.x / 2;
-    obb.halfSize.y = colVisualisation.scl.y / 2;
-    obb.halfSize.z = colVisualisation.scl.z / 2;
-    obb.rotation = colVisualisation.rot;
+
 }
 
 
@@ -94,8 +91,8 @@ Vector3D ClosestPointOrientedBox(Vector3D p, OBBCollider b)
     for (int i = 0; i < 3; i++) {
 
         float dist = d.Dot({ umv.Matrix4V[i].x,umv.Matrix4V[i].y,umv.Matrix4V[i].z });
-        if (dist > b.obb.halfSize.xyz[i]) dist = b.obb.halfSize.xyz[i];
-        if (dist < (b.obb.halfSize.xyz[i]*-1)) dist = (b.obb.halfSize.xyz[i] * -1);
+        if (dist > b.obb.halfSize().xyz[i]) dist = b.obb.halfSize().xyz[i];
+        if (dist < (b.obb.halfSize().xyz[i] * -1)) dist = (b.obb.halfSize().xyz[i] * -1);
         q = q+(dist * Vector3D(umv.Matrix4V[i].x,umv.Matrix4V[i].y,umv.Matrix4V[i].z));
 
     }

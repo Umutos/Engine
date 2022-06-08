@@ -14,6 +14,7 @@
 #include <Collider.h>
 #include <Transform.h>
 #include <Camera.h>
+#include <Actor.h>
 
 namespace Core
 {
@@ -39,7 +40,8 @@ namespace Core
         SphereCollider player2;
         OBBCollider platform1;
         Camera camera;
-
+        Actor player;
+        std::vector<Platform> platforms;
         std::vector<LowRenderer::Mesh*> mesh;
         std::vector<LowRenderer::PointLight*> pointLights;
         std::vector<LowRenderer::DirectionnalLight*> directLights;

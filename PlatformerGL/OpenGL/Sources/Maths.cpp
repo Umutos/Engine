@@ -749,18 +749,23 @@ Sphere::Sphere(float rad)
 
 OBB::OBB()
 {
-    this->rotation = {0,0,0};
+    //*this->rotation = {0,0,0};
     _umv = identity4x4();
 }
 
-OBB::OBB(Vector3D halfSize, Vector3D rotation)
+OBB::OBB(Vector3D* halfSize, Vector3D* rotation)
 {
-    this->halfSize = halfSize;
+    this->_halfSize = halfSize;
     this->rotation = rotation;
     _umv = identity4x4();
 
 }
 Matrix4 OBB::umv()
 {
-    return _umv.CreateTransformMatrix(rotation, { 0,0,0 }, { 1,1,1 });
+    return _umv.CreateTransformMatrix(*rotation, { 0,0,0 }, { 1,1,1 });
+}
+
+Vector3D OBB::halfSize()
+{
+    return *_halfSize/2;
 }

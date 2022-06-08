@@ -53,18 +53,21 @@ void App::SphereColl()
 {
 	player1 = SphereCollider(&mesh[0]->pos, Sphere(1));
 	mesh.push_back(&player1.colVisualisation);
-	player2 = SphereCollider(&mesh[0]->pos+3, Sphere(1));
+	player2 = SphereCollider(&mesh[0]->pos, Sphere(1));
 	mesh.push_back(&player2.colVisualisation);
 
-	platform1 = OBBCollider(&mesh[1]->pos, OBB(mesh[1]->scl/2, mesh[1]->rot));
-	mesh.push_back(&platform1.colVisualisation);
+	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
+	platforms.push_back(Platform(platform1, &player2.colVisualisation));
+
+	player = Actor(player1, mesh[0], 5);
 }
 
 void App::Update(int shaderProgram)
 {
 	glfwPollEvents();
 	processInput(window);
-	player1.Update();
+	player.Update(platforms);
+
 	player2.Update();
 	platform1.Update();
 	Matrix4 PV;
@@ -159,6 +162,14 @@ void App::Update(int shaderProgram)
 				ImGui::Text("no OBB collision... :(");
 			}
 
+			if (player.isGrounded)
+			{
+				ImGui::Text("isGrounded!!!!");
+			}
+			else
+			{
+				ImGui::Text("is not grounded ;(");
+			}
 
 			if (ImGui::Begin("Config"))
 			{
