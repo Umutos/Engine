@@ -10,6 +10,8 @@ void Camera::CameraWithMouse(GLFWwindow* window, float x, float y)
 		moveY = y;
 		firstMouse = false;
 	}
+
+	Vector3D direction;
 	
 	if (mouseMove)
 	{
@@ -30,9 +32,10 @@ void Camera::CameraWithMouse(GLFWwindow* window, float x, float y)
 		if (pitch < -89)
 			pitch = -89;
 	}
-	Vector3D direction;
-	direction = Vector3D(cos(Radian(angle)) * cos(Radian(pitch)), sin(Radian(pitch)), sin(Radian(angle)) * cos(Radian(pitch)));
 
+	direction = Vector3D(cos(Radian(angle)) * cos(Radian(pitch)), sin(Radian(pitch)), sin(Radian(angle)) * cos(Radian(pitch)));
 	direction.Normalize();
+	
 	camFront = direction;
+	
 }

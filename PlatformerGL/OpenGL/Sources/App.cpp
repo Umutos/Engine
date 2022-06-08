@@ -98,7 +98,6 @@ void App::Update(int shaderProgram)
 		SpotLightsToShaders(shaderProgram);
 	}
 
-
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -124,8 +123,6 @@ void App::Update(int shaderProgram)
 		ImGui::End();
 	}
 
-
-
 	if (drawModel)
 	{
 		for (int i = 0; i < mesh.size(); i++)
@@ -134,87 +131,84 @@ void App::Update(int shaderProgram)
 		}
 	}
 
-
-
-	static const char* item[]{ "Model 1", "Model 2", "Model 3", "Model 4", "Model 5", "Model 6", "Model 7" };
+	static const char* item[]{ "Player", "Model 1", "Model 2", "Model 3", "Model 4", "Model 5", "Model 6", "Model 7", "Model 8", "Model 9" };
 	static int selectItem = 0;
 
-		if (Debug)
+	if (Debug)
+	{
+		if (SphereSphereCol(player1, player2))
 		{
-			if (SphereSphereCol(player1, player2))
-			{
-			ImGui::Text("Sphere Collide!!");
-			}
-			else
-			{
-			ImGui::Text("no sphere collision... :(");
-			}
-
-			if (SphereOBBCol(player1, platform1)|| SphereOBBCol(player2, platform1))
-			{
-				ImGui::Text("OBB Collide!!");
-			}
-			else
-			{
-				ImGui::Text("no OBB collision... :(");
-			}
-
-
-			if (ImGui::Begin("Config"))
-			{
-				ImGui::Combo("Model List", &selectItem, item, IM_ARRAYSIZE(item));
-
-				if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
-				{
-					if (ImGui::CollapsingHeader("Rotation", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::SliderFloat("Rotation X", &mesh[selectItem]->rot.x, 0, M_PI * 2);
-						ImGui::SliderFloat("Rotation Y", &mesh[selectItem]->rot.y, 0, M_PI * 2);
-						ImGui::SliderFloat("Rotation Z", &mesh[selectItem]->rot.z, 0, M_PI * 2);
-					}
-					if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -200, 200);
-						ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -200, 200);
-						ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -200, 200);
-					}
-					if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::SliderFloat("Scale X", &mesh[selectItem]->scl.x, 0, 50);
-						ImGui::SliderFloat("Scale Y", &mesh[selectItem]->scl.y, 0, 50);
-						ImGui::SliderFloat("Scale Z", &mesh[selectItem]->scl.z, 0, 50);
-					}
-				}
-			}
-			ImGui::End();
-
-			if (ImGui::Begin("Light Config"))
-			{
-				if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
-				{
-					if (ImGui::CollapsingHeader("Directionnal", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::Checkbox("DirectionalLight", &DirectionalLight);
-
-						ImGui::SliderFloat("Directional Light\n Intensity", &directLights[0]->diffuseColor.x, 0, 1);
-					}
-					if (ImGui::CollapsingHeader("Point", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::Checkbox("PointLight", &PointLight);
-
-						ImGui::SliderFloat("Point Light Intensity", &pointLights[0]->diffuseColor.y, 0, 1);
-					}
-					if (ImGui::CollapsingHeader("Spot", ImGuiTreeNodeFlags_DefaultOpen))
-					{
-						ImGui::Checkbox("SpotLight", &SpotLight);
-
-						ImGui::SliderFloat("Spot Light Intensity", &spotLights[0]->diffuseColor.z, 0, 1);
-					}
-				}
-			}
-			ImGui::End();
+		ImGui::Text("Sphere Collide!!");
+		}
+		else
+		{
+		ImGui::Text("no sphere collision... :(");
 		}
 
+		if (SphereOBBCol(player1, platform1)|| SphereOBBCol(player2, platform1))
+		{
+			ImGui::Text("OBB Collide!!");
+		}
+		else
+		{
+			ImGui::Text("no OBB collision... :(");
+		}
+
+
+		if (ImGui::Begin("Config"))
+		{
+			ImGui::Combo("Model List", &selectItem, item, IM_ARRAYSIZE(item));
+
+			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				if (ImGui::CollapsingHeader("Rotation", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::SliderFloat("Rotation X", &mesh[selectItem]->rot.x, 0, M_PI * 2);
+					ImGui::SliderFloat("Rotation Y", &mesh[selectItem]->rot.y, 0, M_PI * 2);
+					ImGui::SliderFloat("Rotation Z", &mesh[selectItem]->rot.z, 0, M_PI * 2);
+				}
+				if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::SliderFloat("Position X", &mesh[selectItem]->pos.x, -200, 200);
+					ImGui::SliderFloat("Position Y", &mesh[selectItem]->pos.y, -200, 200);
+					ImGui::SliderFloat("Position Z", &mesh[selectItem]->pos.z, -200, 200);
+				}
+				if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::SliderFloat("Scale X", &mesh[selectItem]->scl.x, 0, 50);
+					ImGui::SliderFloat("Scale Y", &mesh[selectItem]->scl.y, 0, 50);
+					ImGui::SliderFloat("Scale Z", &mesh[selectItem]->scl.z, 0, 50);
+				}
+			}
+		}
+		ImGui::End();
+
+		if (ImGui::Begin("Light Config"))
+		{
+			if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				if (ImGui::CollapsingHeader("Directionnal", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Checkbox("DirectionalLight", &DirectionalLight);
+
+					ImGui::SliderFloat("Directional Light\n Intensity", &directLights[0]->diffuseColor.x, 0, 1);
+				}
+				if (ImGui::CollapsingHeader("Point", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Checkbox("PointLight", &PointLight);
+
+					ImGui::SliderFloat("Point Light Intensity", &pointLights[0]->diffuseColor.y, 0, 1);
+				}
+				if (ImGui::CollapsingHeader("Spot", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Checkbox("SpotLight", &SpotLight);
+
+					ImGui::SliderFloat("Spot Light Intensity", &spotLights[0]->diffuseColor.z, 0, 1);
+				}
+			}
+		}
+		ImGui::End();
+	}
 
 	if (Pause)
 	{
@@ -430,6 +424,7 @@ void App::processInput(GLFWwindow* window)
 				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			}
 		}
+
 		if (Debug == false && Pause == false)
 		{
 			/*camera.camPos.x = mesh[0]->pos.x;
@@ -437,27 +432,22 @@ void App::processInput(GLFWwindow* window)
 			camera.camPos.z = mesh[0]->pos.z + 30;
 			camera.angle = 90;
 			camera.pitch = 0;*/
-			
 
 			if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 			{
 				mesh[0]->pos.x += 0.5f;
 				mesh[0]->rot.y = 2;
-				Vector3D smoothedPositon;
-				smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
-				camera.camPos.x = smoothedPositon.x;
+				camera.camPos.x = mesh[0]->pos.x;
 			}
 			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			{
 				mesh[0]->pos.x -= 0.5f;
 				mesh[0]->rot.y = 5;
-				Vector3D smoothedPositon;
-				smoothedPositon.x = Lerp(mesh[0]->pos.x, camera.camPos.x, smoothSpeed);
-				camera.camPos.x = smoothedPositon.x;
+				camera.camPos.x = mesh[0]->pos.x;
 			}
 			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 			{
-				mesh[0]->pos.z -= 0.5;
+				mesh[0]->pos.z -= 0.5f;
 				mesh[0]->rot.y = 3.3f;
 				camera.camPos.z = mesh[0]->pos.z + 30;
 			}
@@ -469,35 +459,15 @@ void App::processInput(GLFWwindow* window)
 			}
 			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 			{
-				const float radius = 30;
-				float camX = sin(glfwGetTime()) * radius;
-				float camZ = cos(glfwGetTime()) * radius;
-
-				camX += mesh[0]->pos.x;
-				camZ += mesh[0]->pos.z;
-				camera.angle += cos(M_PI);
-				camera.camPos = { camX, 7, camZ };
+				camera.camPos = camera.camPos + 1 * camera.camRight * camera.rotationSpeed;
 			}
 			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			{
-				const float radius = 30;
-				float camX = -sin(glfwGetTime()) * radius;
-				float camZ = cos(glfwGetTime()) * radius;
-
-
-				camX += mesh[0]->pos.x;
-				camZ += mesh[0]->pos.z;
-
-				camera.angle += cos(M_PI);
-
-				camera.camPos = { camX, 7, camZ };
+				camera.camPos = camera.camPos + -1 * camera.camRight * camera.rotationSpeed;
 			}
 			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 			{
-				mesh[0]->pos.y -= -camera.jumpSpeed;
-				Vector3D smoothedPositon;
-				smoothedPositon.y = Lerp(mesh[0]->pos.y, camera.camPos.y, smoothSpeed);
-				camera.camPos.y = smoothedPositon.y;
+				camera.velocity.y -= -camera.jumpSpeed;
 			}
 		}
 

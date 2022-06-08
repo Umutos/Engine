@@ -1,6 +1,7 @@
 #pragma once
 #include <Maths.h>
 #include <GLFW/glfw3.h>
+#include <Mesh.h>
 
 namespace LowRenderer
 {
@@ -10,7 +11,7 @@ namespace LowRenderer
 		Vector3D camPos = { 0.f, 10.f, 30.f };
 		Vector3D camUP = { 0.f, 1.f, 0.f };
 		Vector3D camRight = { 0.f, 0.f, 0.f };
-		Vector3D camFront = { camPos.x + cos(Radian(angle)) * cos(Radian(pitch)), camPos.y + sin(Radian(pitch)), camPos.z + sin(Radian(angle)) * cos(Radian(pitch)) };
+		Vector3D camFront;
 
 		Matrix4 modelMatrix;
 		Matrix4 viewMatrix;
@@ -24,11 +25,12 @@ namespace LowRenderer
 		float angle = 90;
 		float pitch = 0;
 		float moveSpeed = 0.05f;
+		float rotationSpeed = 0.5f;
 		float jumpSpeed = 10.0f;
 
 		const float gravity = 1;
 		float groundHeight = 0;
-		Vector2D velocity = { 0, 0 };
+		Vector3D velocity = { 0, 0, 0 };
 
 
 	public:

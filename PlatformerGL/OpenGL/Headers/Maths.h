@@ -154,8 +154,8 @@ public:
     static Matrix4 CreateZRotationMatrix(float angle);
     Matrix4 GetInvertibleMat4();
     Matrix4 GetAdjugateMat4();
-    Matrix4 LookAt(Vector3D eye, Vector3D target, Vector3D up);
     Matrix4 GetProjection(const float& fov, const float& n, const float& f);
+    Matrix4 LookAt(Vector3D eye, Vector3D target, Vector3D up);
     Matrix4 GetViewMatrix();
 
     Matrix4 operator*(const Matrix4& mat1);
