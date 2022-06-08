@@ -51,24 +51,27 @@ void App::Init(AppInitializer init)
 
 void App::SphereColl()
 {
-	player1 = SphereCollider(Vector3D(3, 3, 3), Sphere(1));
+	player1 = SphereCollider(&mesh[0]->pos, Sphere(1));
 	mesh.push_back(&player1.colVisualisation);
-	player2 = SphereCollider(Vector3D(0, 0, 0), Sphere(1));
+	player2 = SphereCollider(&mesh[0]->pos, Sphere(1));
 	mesh.push_back(&player2.colVisualisation);
 
-	platform1 = OBBCollider(Vector3D(3, 3, 3), OBB(Vector3D(1, 1, 1),Vector3D(0, 0, 0)));
-	mesh.push_back(&platform1.colVisualisation);
+	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
+	platforms.push_back(Platform(platform1, &player2.colVisualisation));
+
+	player = Actor(player1, mesh[0], 0.05);
 }
 
 void App::Update(int shaderProgram)
 {
 	glfwPollEvents();
 	processInput(window);
-	player1.Update();
+	player.Update(platforms);
+
 	player2.Update();
 	platform1.Update();
 	Matrix4 PV;
-	Matrix4 matrix4;
+	Matrix4 matrix4; 
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -154,6 +157,14 @@ void App::Update(int shaderProgram)
 			ImGui::Text("no OBB collision... :(");
 		}
 
+			if (player.isGrounded)
+			{
+				ImGui::Text("isGrounded!!!!,%f",player.dot);
+			}
+			else
+			{
+				ImGui::Text("is not grounded ;(");
+			}
 
 		if (ImGui::Begin("Config"))
 		{
@@ -228,16 +239,6 @@ void App::Update(int shaderProgram)
 			}
 		}
 		ImGui::End();
-	}
-
-	if(mesh[0]->pos.y + mesh[0]->scl.y < camera.groundHeight || camera.velocity.y < 0)
-	{
-		camera.velocity.y += camera.gravity;
-	}
-	else
-	{
-		mesh[0]->pos = { mesh[0]->pos.x, camera.groundHeight - mesh[0]->scl.y, mesh[0]->pos.z };
-		camera.velocity.y = 0;
 	}
 
 	ImGui::Render();
@@ -467,8 +468,10 @@ void App::processInput(GLFWwindow* window)
 			}
 			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 			{
-				camera.velocity.y -= -camera.jumpSpeed;
+				if(player.isGrounded)
+					player.Jump();
 			}
+		
 		}
 
 		double x, y;

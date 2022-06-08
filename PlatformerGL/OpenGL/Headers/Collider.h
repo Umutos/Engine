@@ -14,26 +14,26 @@ inline static Model* boxModel;
 class OBBCollider
 {
 public:
-    Vector3D position;
+    Vector3D* position;
     OBB obb;
     bool showCol = true;
     Mesh colVisualisation;
 
     OBBCollider();
     ~OBBCollider() {}
-    OBBCollider(Vector3D pos, OBB obb);
+    OBBCollider(Vector3D* pos, OBB obb);
     void Update();
 };
 
 class SphereCollider
 {
 public:
+    Vector3D* position;
     Sphere sphere;
-    Vector3D position;
     Mesh colVisualisation;
 
     SphereCollider();
-    SphereCollider(Vector3D pos, Sphere sphere);
+    SphereCollider(Vector3D* pos, Sphere sphere);
     void Update();
 };
 

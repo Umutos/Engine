@@ -1,7 +1,6 @@
 #pragma once
 #include <Maths.h>
 #include <GLFW/glfw3.h>
-#include <Mesh.h>
 
 namespace LowRenderer
 {
@@ -27,10 +26,6 @@ namespace LowRenderer
 		float moveSpeed = 0.05f;
 		float rotationSpeed = 0.5f;
 		float jumpSpeed = 10.0f;
-
-		const float gravity = 1;
-		float groundHeight = 0;
-		Vector3D velocity = { 0, 0, 0 };
 
 
 	public:

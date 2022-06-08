@@ -111,9 +111,9 @@ int main()
 	app.directLights.push_back(new DirectionnalLight(Vector3D(0, 0, -1), Vector3D(1, 1, 1)));
 	app.spotLights.push_back(new SpotLight(Vector3D(0, -10, 0), Vector3D(0, 0, 0), Vector3D(1, 1, 1), 1, 0.022f, 0.0019f, M_PI / 3.15));
 
-	app.mesh.push_back(new Mesh(MF,Vector3D(0, 3.3f, 0), Vector3D(0, 2, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
+	app.mesh.push_back(new Mesh(MF,Vector3D(0, 3.3f, 0), Vector3D(0, 3, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
 
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(0, 0, 0), Vector3D(50, 1, 15), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(0, -2, 0), Vector3D(50, 1, 15), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 4.7, 0), Vector3D(0, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 4.7, 1.5), Vector3D(0, 0, -82), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 4.7, 0), Vector3D(15, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));

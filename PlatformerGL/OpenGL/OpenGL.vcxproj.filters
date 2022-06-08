@@ -59,6 +59,12 @@
     <ClCompile Include="Sources\Collider.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Actor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Platform.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui\imconfig.h">
@@ -125,6 +131,12 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Collider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Actor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Platform.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

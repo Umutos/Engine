@@ -156,6 +156,7 @@
     <ClCompile Include="Imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Imgui\imgui_tables.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Actor.cpp" />
     <ClCompile Include="Sources\App.cpp" />
     <ClCompile Include="Sources\Camera.cpp" />
     <ClCompile Include="Sources\Collider.cpp" />
@@ -166,11 +167,13 @@
     <ClCompile Include="Sources\Maths.cpp" />
     <ClCompile Include="Sources\Mesh.cpp" />
     <ClCompile Include="Sources\Model.cpp" />
+    <ClCompile Include="Sources\Platform.cpp" />
     <ClCompile Include="Sources\ResourcesManager.cpp" />
     <ClCompile Include="Sources\Shader.cpp" />
     <ClCompile Include="Sources\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Actor.h" />
     <ClInclude Include="Headers\App.h" />
     <ClInclude Include="Headers\Assertion.h" />
     <ClInclude Include="Headers\Camera.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="Headers\Maths.h" />
     <ClInclude Include="Headers\Mesh.h" />
     <ClInclude Include="Headers\Model.h" />
+    <ClInclude Include="Headers\Platform.h" />
     <ClInclude Include="Headers\ResourcesManager.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\Transform.h" />

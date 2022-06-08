@@ -227,13 +227,14 @@ class OBB
 {
 private:
     Matrix4 _umv;
+    Vector3D* _halfSize;
 public:
-    Vector3D halfSize;
-    Vector3D rotation;
+    Vector3D* rotation;
     OBB();
     ~OBB() {}
-    OBB(Vector3D halfSize,Vector3D rotation);
+    OBB(Vector3D* halfSize, Vector3D* rotation);
     Matrix4 umv();
+    Vector3D halfSize();
 };
 
 class Sphere
