@@ -46,6 +46,11 @@ void Actor::Update(std::vector<Platform> platforms)
 			{
 				isGrounded = true;
 			}
+			else
+			{
+				collider.position->y++;
+			}
+			*collider.position = *collider.position + (Vector3D(rotation.matrixTab4[1][0], rotation.matrixTab4[1][1], rotation.matrixTab4[1][2])) * 0.1;
 
 		}
 	}

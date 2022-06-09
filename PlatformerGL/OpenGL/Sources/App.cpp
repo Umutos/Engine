@@ -139,6 +139,8 @@ void App::Update(int shaderProgram)
 
 	if (Debug)
 	{
+		ImGui::Text("Colider rotation:%f , %f , %f ",platform1.obb.rotation->x, platform1.obb.rotation->y, platform1.obb.rotation->z);
+		ImGui::Text("Colider halfsize:%f , %f , %f ", platform1.obb.halfSize().x, platform1.obb.halfSize().y, platform1.obb.halfSize().z);
 		if (SphereSphereCol(player1, player2))
 		{
 		ImGui::Text("Sphere Collide!!");
@@ -148,9 +150,9 @@ void App::Update(int shaderProgram)
 		ImGui::Text("no sphere collision... :(");
 		}
 
-		if (SphereOBBCol(player1, platform1)|| SphereOBBCol(player2, platform1))
+		if (SphereOBBCol(player1, platform1))
 		{
-			ImGui::Text("OBB Collide!!");
+			ImGui::Text("OBB Collide!! %f", player.dot);
 		}
 		else
 		{
@@ -159,7 +161,7 @@ void App::Update(int shaderProgram)
 
 			if (player.isGrounded)
 			{
-				ImGui::Text("isGrounded!!!!,%f",player.dot);
+				ImGui::Text("isGrounded!!!!");
 			}
 			else
 			{
