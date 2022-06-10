@@ -59,7 +59,7 @@ void App::SphereColl()
 	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
 	platforms.push_back(Platform(platform1, &player2.colVisualisation));
 
-	player = Actor(player1, mesh[0], 0.05);
+	player = Actor(player1, mesh[0],0.05);
 }
 
 void App::Update(int shaderProgram)

@@ -33,6 +33,12 @@ void Actor::Update(std::vector<Platform> platforms)
 			{
 				halfSizeRotated.Matrix4V[j] = platforms[i].collider.obb.halfSize().xyz[j] * Vector3D(rotation.matrixTab4[j][0], rotation.matrixTab4[j][1], rotation.matrixTab4[j][2]);
 			}
+
+			Vector3D prght = Vector3D(rotation.matrixTab4[0][0], rotation.matrixTab4[0][1], rotation.matrixTab4[0][2]);
+			prght.Normalize();
+			Vector3D prght2 = Vector3D(*collider.position - *platforms[i].collider.position);
+			prght2.Normalize();
+
 			float playerRight = Vector3D(rotation.matrixTab4[0][0], rotation.matrixTab4[0][1], rotation.matrixTab4[0][2]).Dot(Vector3D(*collider.position - *platforms[i].collider.position));
 			
 			Vector3D pup = Vector3D(rotation.matrixTab4[1][0], rotation.matrixTab4[1][1], rotation.matrixTab4[1][2]);
@@ -40,6 +46,9 @@ void Actor::Update(std::vector<Platform> platforms)
 			Vector3D pup2 = Vector3D(*collider.position - *platforms[i].collider.position);
 			pup2.Normalize();
 			float playerUp = pup.Dot(pup2);
+
+			
+			float playerUp = prght.Dot(prght2);
 			float playerFwd = Vector3D(rotation.matrixTab4[2][0], rotation.matrixTab4[2][1], rotation.matrixTab4[2][2]).Dot(Vector3D(*collider.position - *platforms[i].collider.position));
 			dot = playerUp;
 			if (playerUp >= 0)
@@ -50,6 +59,9 @@ void Actor::Update(std::vector<Platform> platforms)
 			{
 				collider.position->y++;
 			}
+			float fmodz = fmod(platforms[i].collider.obb.rotation->z, M_PI);
+			float fmodx = fmod(platforms[i].collider.obb.rotation->x, M_PI);
+			if(((fmodz<-0.3|| fmodz > 0.3) && (fmodz < 3.11 || fmodz > 3.17))||((fmodx < -0.3 || fmodx > 0.3) && (fmodx < 3.11 || fmodx > 3.17)))
 			*collider.position = *collider.position + (Vector3D(rotation.matrixTab4[1][0], rotation.matrixTab4[1][1], rotation.matrixTab4[1][2])) * 0.1;
 
 		}
