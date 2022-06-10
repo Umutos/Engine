@@ -41,6 +41,8 @@ namespace Core
         OBBCollider platform1;
         Camera camera;
         Actor player;
+        Matrix4 PV;
+        Matrix4 matrix4;
         std::vector<Platform> platforms;
         std::vector<LowRenderer::Mesh*> mesh;
         std::vector<LowRenderer::PointLight*> pointLights;
