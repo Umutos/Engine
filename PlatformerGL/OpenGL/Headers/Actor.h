@@ -14,7 +14,12 @@ public:
 	bool isGrounded;
 	float velocity=0;
 	float jumpHeight;
-	float dot;
+	float dotCenterUp;
+	float dotCenterRight;
+	float dotCenterFwd;
+	float dotUp;
+	float dotRight;
+	float dotFwd;
 	Actor(SphereCollider collider, Mesh* model, float jumpHeight);
 	Actor() {};
 	void Update(std::vector<Platform> platforms);

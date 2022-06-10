@@ -58,6 +58,7 @@ void App::SphereColl()
 
 	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
 	platforms.push_back(Platform(platform1, &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[2]->pos, OBB(&mesh[2]->scl, &mesh[2]->rot)), &player2.colVisualisation));
 
 	player = Actor(player1, mesh[0],0.05);
 }
@@ -179,9 +180,10 @@ void App::Update(int shaderProgram)
 		ImGui::Text("no sphere collision... :(");
 		}
 
-		if (SphereOBBCol(player1, platform1))
+		if (SphereOBBCol(player1, platform1) || SphereOBBCol(player1, platforms[1].collider))
 		{
-			ImGui::Text("OBB Collide!! %f", player.dot);
+			ImGui::Text("Center Up %f,Center Right %f,Center Fwd %f ", player.dotCenterUp, player.dotCenterRight, player.dotCenterFwd);
+			ImGui::Text(" Up %f, Right %f, Fwd %f ", player.dotUp, player.dotRight, player.dotFwd);
 		}
 		else
 		{
