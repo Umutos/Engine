@@ -88,11 +88,13 @@ void Actor::Update(std::vector<Platform> platforms)
 			if (playerUp2 > 0 && playerUp > 0)
 			{
 				isGrounded = true;
+
 			}
 			if (playerUp2 < 0 && playerUp < 0)
 			{
 				*collider.position = *collider.position - Vector3D(rotation.matrixTab4[1][0], rotation.matrixTab4[1][1], rotation.matrixTab4[1][2]);
 			}
+		
 			if (playerRight2 > 0 && playerRight > 0)
 			{
 				*collider.position = *collider.position + Vector3D(rotation.matrixTab4[0][0], rotation.matrixTab4[0][1], rotation.matrixTab4[0][2]);
