@@ -54,7 +54,7 @@ In Pause Menu:
 -----------
 To add models, go to main and add a new mesh with coordinates and textures.<br>
 
-![png](OpenGLVeryStart/OpenGL/Assets/MeshCapture.PNG)
+![png](OpenGLVeryStart/OpenGL/Assets/4.PNG)
 
 ## Building
 
