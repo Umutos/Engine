@@ -114,14 +114,15 @@ int main()
 	app.mesh.push_back(new Mesh(MF,Vector3D(0, 3.3f, 0), Vector3D(0, 3, 0), Vector3D(0.1, 0.1, 0.1), "Resources/Textures/mf.png"));
 
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(0, -2, 0), Vector3D(50, 5, 15), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(20, 0, 2.5), Vector3D(9, 33, 15), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(0, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 3, 1.5), Vector3D(0, 0, -82), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 3, 0), Vector3D(15, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-30, 0, -70), Vector3D(5, 1, 6), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(20, 0, -11), Vector3D(9, 33, 4.5), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0.35), Vector3D(0, 0, -70), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
+
+	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 3, 0), Vector3D(-13.1, 0, -82), Vector3D(1, 12, 12), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(1.564, 3, 0), Vector3D(2.6, 2.6, -86), Vector3D(15, 1, 15), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-25, -0.8, -56), Vector3D(5, 1, 6), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-40, 0, -53), Vector3D(3, 1, 6), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-60, 0, -65), Vector3D(10, 2, 7), "Resources/Textures/Bricks.png"));
-	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, -6), Vector3D(-60, -0.9, -80), Vector3D(7, 1, 4), "Resources/Textures/Bricks.png"));
+	app.mesh.push_back(new Mesh(model, Vector3D(6, 3, 0), Vector3D(-60, -0.9, -80), Vector3D(7, 1, 10), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-60, -10, -123), Vector3D(7, 1, 4), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-60, -13, -105), Vector3D(7, 1, 4), "Resources/Textures/Bricks.png"));
 	app.mesh.push_back(new Mesh(model, Vector3D(0, 3, 0), Vector3D(-60, -15, -90), Vector3D(7, 1, 4), "Resources/Textures/Bricks.png"));

@@ -59,7 +59,17 @@ void App::SphereColl()
 	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
 	platforms.push_back(Platform(platform1, &player2.colVisualisation));
 	platforms.push_back(Platform(OBBCollider(&mesh[2]->pos, OBB(&mesh[2]->scl, &mesh[2]->rot)), &player2.colVisualisation));
-
+	platforms.push_back(Platform(OBBCollider(&mesh[3]->pos, OBB(&mesh[3]->scl, &mesh[3]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[4]->pos, OBB(&mesh[4]->scl, &mesh[4]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[5]->pos, OBB(&mesh[5]->scl, &mesh[5]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[6]->pos, OBB(&mesh[6]->scl, &mesh[6]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[7]->pos, OBB(&mesh[7]->scl, &mesh[7]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[8]->pos, OBB(&mesh[8]->scl, &mesh[8]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[9]->pos, OBB(&mesh[9]->scl, &mesh[9]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[10]->pos, OBB(&mesh[10]->scl, &mesh[10]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[11]->pos, OBB(&mesh[11]->scl, &mesh[11]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[12]->pos, OBB(&mesh[12]->scl, &mesh[12]->rot)), &player2.colVisualisation));
+	platforms.push_back(Platform(OBBCollider(&mesh[13]->pos, OBB(&mesh[13]->scl, &mesh[13]->rot)), &player2.colVisualisation));
 	player = Actor(player1, mesh[0],0.05);
 }
 
