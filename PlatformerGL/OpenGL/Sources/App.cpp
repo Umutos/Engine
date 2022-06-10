@@ -70,20 +70,29 @@ void App::Update(int shaderProgram)
 	player.Update(platforms);
 
 	player2.Update();
-	platform1.Update();
-	Matrix4 PV;
-	Matrix4 matrix4; 
+	platform1.Update(); 
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
-	camera.camRight = camera.camUP.CrossProduct(camera.camFront);
-	camera.camRight.Normalize();
+	if (Debug == false)
+	{
+		Vector3D direction = camera.camPos - player.model->pos;
+		direction.Normalize();
+		Vector3D target = camera.camPos + direction;
+		camera.Update(target);
+		PV = camera.projectionMatrix * camera.viewMatrix;
+	}
+	else
+	{
+		camera.camRight = camera.camUP.CrossProduct(camera.camFront);
+		camera.camRight.Normalize();
 
-	camera.viewMatrix = matrix4.LookAt(camera.camPos, camera.camPos + camera.camFront, camera.camUP);
-	camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 1000.f);
-	PV = camera.projectionMatrix * camera.viewMatrix;
+		camera.viewMatrix = camera.LookAt(camera.camPos, camera.camPos + camera.camFront, camera.camUP);
+		camera.projectionMatrix = matrix4.GetProjection(80.f, 0.005f, 1000.f);
+		PV = camera.projectionMatrix * camera.viewMatrix;
+	}
 
 	glUseProgram(shaderProgram);
 
@@ -415,59 +424,44 @@ void App::processInput(GLFWwindow* window)
 			if (AZERTY)
 			{
 				if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
-				}
+
 			}
 			else
 			{
 				if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos + camera.moveSpeed * camera.camFront;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos - camera.moveSpeed * camera.camFront;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos + camera.moveSpeed * camera.camRight;
-				}
+
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-				{
 					camera.camPos = camera.camPos - camera.moveSpeed * camera.camRight;
-				}
+
 			}
 			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-			{
 				camera.camPos = camera.camPos + camera.moveSpeed * camera.camUP;
-			}
+
 			if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-			{
 				camera.moveSpeed = 0.1f;
 
-			}
 			if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			{
 				camera.moveSpeed = 0.5f;
 
-			}
 			if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-			{
 				camera.camPos = camera.camPos - camera.moveSpeed * camera.camUP;
-			}
 
 			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 			{
@@ -489,7 +483,8 @@ void App::processInput(GLFWwindow* window)
 			camera.camPos.z = mesh[0]->pos.z + 30;
 			camera.angle = 90;
 			camera.pitch = 0;*/
-			camera.camPos.y = player.model->pos.y;
+
+			camera.camPos.y = player.model->pos.y + 10;
 			if (AZERTY)
 			{
 				if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
@@ -523,41 +518,78 @@ void App::processInput(GLFWwindow* window)
 				{
 					mesh[0]->pos.x += 0.5f;
 					mesh[0]->rot.y = 2;
-					camera.camPos.x = mesh[0]->pos.x;
 				}
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 				{
 					mesh[0]->pos.x -= 0.5f;
 					mesh[0]->rot.y = 5;
-					camera.camPos.x = mesh[0]->pos.x;
 				}
 				if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 				{
 					mesh[0]->pos.z -= 0.5f;
 					mesh[0]->rot.y = 3.3f;
-					camera.camPos.z = mesh[0]->pos.z + 30;
 				}
 				if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 				{
 					mesh[0]->pos.z += 0.5f;
 					mesh[0]->rot.y = 0;
-					camera.camPos.z = mesh[0]->pos.z + 30;
 				}
 			}
+
 			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 			{
-				camera.camPos = camera.camPos + 1 * camera.camRight * camera.rotationSpeed;
+				camera.camPos = camera.camPos + camera.camRight * 1;
+				if (camera.camPos.x >= player.model->pos.x + 50)
+				{
+					camera.camPos.x = player.model->pos.x + 50;
+				}
+				if (camera.camPos.z <= player.model->pos.z - 50)
+				{
+					camera.camPos.z = player.model->pos.z - 50;
+				}
 			}
 			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			{
-				camera.camPos = camera.camPos + -1 * camera.camRight * camera.rotationSpeed;
+				camera.camPos = camera.camPos - camera.camRight * 1;
+				if (camera.camPos.x <= player.model->pos.x - 50)
+				{
+					camera.camPos.x = player.model->pos.x - 50;
+				}
+				if (camera.camPos.z >= player.model->pos.z + 50)
+				{
+					camera.camPos.z = player.model->pos.z + 50;
+				}
 			}
+			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos - camera.camFront * 1;
+				if (camera.camPos.x <= player.model->pos.x - 50)
+				{
+					camera.camPos.x = player.model->pos.x - 50;
+				}
+				if (camera.camPos.z <= player.model->pos.z - 50)
+				{
+					camera.camPos.z = player.model->pos.z - 50;
+				}
+			}
+			if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+			{
+				camera.camPos = camera.camPos + camera.camFront * 1;
+				if (camera.camPos.x >= player.model->pos.x + 50)
+				{
+					camera.camPos.x = player.model->pos.x + 50;
+				}
+				if (camera.camPos.z >= player.model->pos.z + 50)
+				{
+					camera.camPos.z = player.model->pos.z + 50;
+				}
+			}
+
 			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 			{
-				if(player.isGrounded)
+				if (player.isGrounded)
 					player.Jump();
 			}
-		
 		}
 
 		double x, y;
