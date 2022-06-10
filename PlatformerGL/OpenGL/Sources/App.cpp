@@ -101,6 +101,14 @@ void App::Update(int shaderProgram)
 		SpotLightsToShaders(shaderProgram);
 	}
 
+	if (player.model->pos.y <= -50)
+	{
+		player.model->pos = { 0, 3, 0 };
+		camera.camPos.x = player.model->pos.x;
+		camera.camPos.y = player.model->pos.y + 10;
+		camera.camPos.z = player.model->pos.z + 30;
+	}
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -479,6 +487,7 @@ void App::processInput(GLFWwindow* window)
 			camera.camPos.z = mesh[0]->pos.z + 30;
 			camera.angle = 90;
 			camera.pitch = 0;*/
+			camera.camPos.y = player.model->pos.y;
 			if (AZERTY)
 			{
 				if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
