@@ -48,7 +48,6 @@ void Actor::Update(std::vector<Platform> platforms)
 			float playerUp = pup.Dot(pup2);
 
 			
-			float playerUp = prght.Dot(prght2);
 			float playerFwd = Vector3D(rotation.matrixTab4[2][0], rotation.matrixTab4[2][1], rotation.matrixTab4[2][2]).Dot(Vector3D(*collider.position - *platforms[i].collider.position));
 			dot = playerUp;
 			if (playerUp >= 0)
