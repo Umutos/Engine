@@ -55,6 +55,8 @@ namespace Core
         bool Debug = false;
         bool Pause = false;
         bool MenuClose = true;
+        bool AZERTY = false;
+        bool Option = false;
         float smoothSpeed = 0.15f;
 
     private:
