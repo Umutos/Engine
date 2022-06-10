@@ -54,7 +54,22 @@ In Pause Menu:
 -----------
 To add models, go to main and add a new mesh with coordinates and textures.<br>
 
+
 ![png](PlatformerGL/OpenGL/Assets/4.PNG)
+
+Then go to the 'SphereCol' funtion on app and initialise the Platform object using data pointer from the mesh you just created.
+
+```cpp
+	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
+	platforms.push_back(Platform(platform1, &player2.colVisualisation));
+    //player2.colVisualisation serves no purpose yet, it was made so that the platform could have different model
+```
+## Gravity
+To change the gravity value in the Actor.h file
+
+```cpp
+#define GRAVITY     -1
+```
 
 ## Building
 
