@@ -7,7 +7,11 @@
 -----------
 `Engine`<br>
 The objective of this project is to implement the graphic architecture of a game engine..<br>
-This project started on `April 27` and the beta will end on `May 25`. <br>
+This project started on `April 27` and ended on `May 25`. <br>
+
+`PlatformerGL`
+The goal of this project was to make a platformer using our own game engine.
+This project started on `May 31` and the beta will end on `June 10`.
 
 ## Play Menu
 -----------
@@ -54,5 +58,6 @@ To run the project, you can debug with F5.
 
 ## Credit
 
-This project was made by `Umut Osmanoglu`.
+Engine was made made by `Umut Osmanoglu`.
+Platformer was made made by `Umut Osmanoglu` && `Yann Dechaux`.
 
