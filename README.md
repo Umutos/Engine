@@ -58,6 +58,6 @@ To run the project, you can debug with F5.
 
 ## Credit
 
-Engine was made made by `Umut Osmanoglu`.
-Platformer was made made by `Umut Osmanoglu` && `Yann Dechaux`.
+Engine was made made by `Umut Osmanoglu`.<br>
+Platformer was made made by `Umut Osmanoglu` && `Yann Dechaux`.<br>
 
