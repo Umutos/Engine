@@ -1,13 +1,13 @@
-# PlatformerGL
+# Engine
 
 ## Presentation
 
 
 ### Introduction
 -----------
-`PlatformerGL`<br>
-The goal of this project was to make a platformer using our own game engine.<br>
-This project started on `May 31` and the beta will end on `June 10`. <br>
+`Engine`<br>
+The objective of this project is to implement the graphic architecture of a game engine..<br>
+This project started on `April 27` and the beta will end on `May 25`. <br>
 
 ## Play Menu
 -----------
@@ -48,34 +48,11 @@ In Pause Menu:
 - `Debug` = Open Debug Options.<br>
 - `Quit` = Quit the Game.<br>
 
-## Make Collision
-
-### Model
------------
-To add models, go to main and add a new mesh with coordinates and textures.<br>
-
-
-![png](PlatformerGL/OpenGL/Assets/4.PNG)
-
-Then go to the 'SphereCol' funtion on app and initialise the Platform object using data pointer from the mesh you just created.
-
-```cpp
-	platform1 = OBBCollider(&mesh[1]->pos, OBB(&mesh[1]->scl,&mesh[1]->rot));
-	platforms.push_back(Platform(platform1, &player2.colVisualisation));
-    //player2.colVisualisation serves no purpose yet, it was made so that the platform could have different model
-```
-## Gravity
-To change the gravity value in the Actor.h file
-
-```cpp
-#define GRAVITY     -1
-```
-
 ## Building
 
 To run the project, you can debug with F5.
 
 ## Credit
 
-This project was made by `Umut Osmanoglu` and `Yann Dechaux`.
+This project was made by `Umut Osmanoglu`.
 
